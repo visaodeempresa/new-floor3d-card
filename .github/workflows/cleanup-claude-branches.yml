@@ -1,0 +1,51 @@
+name: Cleanup Claude Branches
+
+on:
+  push:
+    branches:
+      - develop
+      - main
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Delete merged claude/* branches
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: branches } = await github.rest.repos.listBranches({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              per_page: 100,
+            });
+
+            const claudeBranches = branches
+              .map(b => b.name)
+              .filter(name => name.startsWith('claude/'));
+
+            for (const branch of claudeBranches) {
+              try {
+                const { data: compare } = await github.rest.repos.compareCommits({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  base: context.ref.replace('refs/heads/', ''),
+                  head: branch,
+                });
+
+                if (compare.ahead_by === 0) {
+                  await github.rest.git.deleteRef({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    ref: `heads/${branch}`,
+                  });
+                  console.log(`Deleted merged branch: ${branch}`);
+                } else {
+                  console.log(`Skipping ${branch} (ahead by ${compare.ahead_by} commits)`);
+                }
+              } catch (e) {
+                console.log(`Error processing ${branch}: ${e.message}`);
+              }
+            }
