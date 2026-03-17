@@ -8,20 +8,40 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) — Versioning:
 
 ## [Unreleased]
 
+### Planned
+- Upgrade Lit from v2 to v3 (fixes HA 2025.11+ compatibility — Issue #194)
+- Upgrade Three.js from r130 to r183
+- Upgrade tween.js from v18 to v25
+- Fix door slide direction bug (Issue #196)
+- Fix TypeError on Android Chrome (Issue #193)
+
+---
+
+## [1.5.3-phase1] — 2026-03-17 — Build Pipeline Modernization
+
 ### Added
 - `docs/` folder with project documentation
 - `docs/architecture.drawio` — full repository architecture diagram (draw.io format)
 - `docs/ARCHITECTURE.md` — detailed architecture documentation with dependency analysis
 - `docs/CHANGELOG.md` — this changelog file
 - Git branch strategy: `master → release → develop → feature/*`
+- `"type": "module"` to `package.json` — explicit ES module declaration required by rollup v4
 
-### Planned
-- Migrate build pipeline from rollup v2 + deprecated plugins to rollup v4 + `@rollup/*` plugins
-- Upgrade Lit from v2 to v3 (fixes HA 2025.11+ compatibility — Issue #194)
-- Upgrade Three.js from r130 to r183
-- Upgrade tween.js from v18 to v25
-- Fix door slide direction bug (Issue #196)
-- Fix TypeError on Android Chrome (Issue #193)
+### Changed
+- **rollup** upgraded from `^2.62.0` to `^4.14.0`
+- **TypeScript** upgraded from `^4.3.5` to `^5.4.0`
+- **`rollup-plugin-commonjs`** (deprecated) replaced by `@rollup/plugin-commonjs@^25.0.7`
+- **`rollup-plugin-node-resolve`** (deprecated) replaced by `@rollup/plugin-node-resolve@^15.2.3`
+- **`rollup-plugin-babel`** (deprecated) replaced by `@rollup/plugin-babel@^6.0.4`
+- **`rollup-plugin-terser`** (deprecated) replaced by `@rollup/plugin-terser@^0.4.4`
+- **`@rollup/plugin-json`** upgraded from `^4.1.0` to `^6.1.0`
+- **`rollup-plugin-typescript2`** upgraded from `^0.30.0` to `^0.36.0`
+- **`@babel/core`** upgraded from `^7.14.6` to `^7.23.0`
+- `rollup.config.js` — updated plugin imports; added `createRequire` for CJS `require.resolve()`; added `babelHelpers: 'bundled'` (required by `@rollup/plugin-babel`)
+- `rollup.config.dev.js` — same plugin import updates and `babelHelpers: 'bundled'`
+- `.eslintrc.js` — removed stale unused `require("rollup-plugin-typescript2")`
+- `tsconfig.json` — upgraded target/lib to `ES2020`; `moduleResolution` changed from `node` to `bundler` (TypeScript 5 recommended for bundler pipelines); added `useDefineForClassFields: false` (preserves Lit decorator behavior)
+- `src/floor3d-card.ts` and `src/editor.ts` — fixed `lit/decorators` → `lit/decorators.js` (required by TypeScript 5 `bundler` module resolution)
 
 ---
 
