@@ -35,7 +35,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: dist/floor3d-card.js
-          asset_name: floor3d-card.js
+          file: dist/new-floor3d-card.js
+          asset_name: new-floor3d-card.js
           tag: ${{ github.ref }}
           overwrite: true
