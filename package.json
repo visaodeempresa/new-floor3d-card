@@ -1,6 +1,6 @@
 {
   "name": "new-floor3d-card",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Your HA Digital Twin aka new-floor3d-card",
   "keywords": [
     "home-assistant",
@@ -16,7 +16,7 @@
   "author": "Andrea Di Zanni <adizanni@msn.com>",
   "license": "MIT",
   "dependencies": {
-    "@lit-labs/scoped-registry-mixin": "^1.0.0",
+    "@lit-labs/scoped-registry-mixin": "^1.0.4",
     "@material/mwc-button": "^0.25.3",
     "@material/mwc-formfield": "^0.25.3",
     "@material/mwc-icon": "^0.25.3",
@@ -32,7 +32,7 @@
     "@tweenjs/tween.js": "^18.6.4",
     "custom-card-helpers": "^1.7.2",
     "home-assistant-js-websocket": "^5.11.1",
-    "lit": "^2.0.0",
+    "lit": "^3.0.0",
     "three": "^0.130.1",
     "three-spritetext": "^1.6.4"
   },
@@ -59,6 +59,9 @@
     "rollup-plugin-serve": "^1.1.0",
     "rollup-plugin-typescript2": "^0.36.0",
     "typescript": "^5.4.0"
+  },
+  "overrides": {
+    "lit": "^3.0.0"
   },
   "scripts": {
     "start": "rollup -c rollup.config.dev.js --watch",
