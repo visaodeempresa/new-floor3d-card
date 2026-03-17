@@ -12,7 +12,7 @@
   ],
   "type": "module",
   "module": "new-floor3d-card.js",
-  "repository": "git@github.com:custom_cards/floor3d-card.git",
+  "repository": "https://github.com/visaodeempresa/new-floor3d-card",
   "author": "Andrea Di Zanni <adizanni@msn.com>",
   "license": "MIT",
   "dependencies": {
