@@ -17,6 +17,48 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) — Versioning:
 
 ---
 
+## [3.0.0] — 2026-03-17 — New Floor3d Card: Fork, Modernization & HACS Release
+
+### Summary
+Complete project overhaul: forked from `adizanni/floor3d-card`, fully modernized build
+toolchain, renamed card type for collision-free HACS parallel install, published as
+independent HACS plugin under `visaodeempresa/new-floor3d-card`.
+
+### Added
+- **Independent HACS plugin** — published as `visaodeempresa/new-floor3d-card` (type: plugin)
+- **`hacs.json`** — HACS manifest with `render_readme: true`
+- **`docs/ARCHITECTURE.md`** — full architecture documentation with dependency graph
+- **`docs/architecture.drawio`** — editable draw.io architecture diagram
+- **`docs/CHANGELOG.md`** — this structured changelog (Keep a Changelog format)
+- **CI pipeline** (`.github/workflows/ci.yml`) — Lint + Build on every push to `feature/**` and PRs targeting `develop`/`release`; uploads `dist/new-floor3d-card.js` as artifact (7-day retention)
+- **Branch auto-cleanup** (`.github/workflows/cleanup-claude-branches.yml`) — auto-deletes `claude/*` branches after merge to `develop`
+- **Branch protection** on `develop` — `Lint & Build` check required before merging
+- **Git branch strategy** — `main ← release ← develop ← feature/*`
+
+### Changed
+- **Card type renamed**: `floor3d-card` → `new-floor3d-card` — enables side-by-side HACS install with the original card without conflicts
+- **JS bundle renamed**: `dist/floor3d-card.js` → `dist/new-floor3d-card.js`
+- **`customElements.define`** updated to `new-floor3d-card`
+- **Repository URL**: `adizanni/floor3d-card` → `visaodeempresa/new-floor3d-card`
+- **rollup** upgraded: `^2.62.0` → `^4.14.0`
+- **TypeScript** upgraded: `^4.3.5` → `^5.4.0`
+- **`rollup-plugin-commonjs`** (deprecated) → `@rollup/plugin-commonjs@^25.0.7`
+- **`rollup-plugin-node-resolve`** (deprecated) → `@rollup/plugin-node-resolve@^15.2.3`
+- **`rollup-plugin-babel`** (deprecated) → `@rollup/plugin-babel@^6.0.4`
+- **`rollup-plugin-terser`** (deprecated) → `@rollup/plugin-terser@^0.4.4`
+- **`@rollup/plugin-json`** upgraded: `^4.1.0` → `^6.1.0`
+- **`rollup-plugin-typescript2`** upgraded: `^0.30.0` → `^0.36.0`
+- **`@babel/core`** upgraded: `^7.14.6` → `^7.23.0`
+- **`tsconfig.json`** — target/lib → `ES2020`; `moduleResolution` → `bundler` (TS5); `useDefineForClassFields: false` (Lit decorator compatibility)
+- **`.github/workflows/build.yml`** — modernized to `actions/checkout@v4`, `actions/setup-node@v4` (Node 22), `actions/cache@v4`
+- **`.github/workflows/release.yml`** — updated to `svenstaro/upload-release-action@v2`; uses relative dist path
+- **`package.json`** — version bumped to `3.0.0`; added `"type": "module"`
+
+### Base
+- Forked from `adizanni/floor3d-card` at v1.5.3 (all original functionality preserved)
+
+---
+
 ## [1.5.3-phase2-devops] — 2026-03-17 — CI/CD Pipeline Setup
 
 ### Added
