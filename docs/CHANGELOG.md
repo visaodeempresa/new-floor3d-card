@@ -17,6 +17,27 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) — Versioning:
 
 ---
 
+## [1.5.3-phase2-devops] — 2026-03-17 — CI/CD Pipeline Setup
+
+### Added
+- `.github/workflows/ci.yml` — CI pipeline triggered on every push to `feature/**` and on PRs targeting `develop` or `release`
+  - Jobs: **Lint** (`npm run lint`) + **Build** (`npm run rollup`)
+  - Node.js 22, npm cache (`~/.npm` keyed by `package.json` hash)
+  - Uploads `dist/floor3d-card.js` as artifact (retention: 7 days)
+- **Branch protection** on `develop`: status check `Lint & Build` must pass before any merge is accepted
+
+### Changed
+- `.github/workflows/build.yml` — modernized from `actions/checkout@v1` → `@v4`; added `actions/setup-node@v4` (Node 22) and `actions/cache@v4` for npm store
+- `.github/workflows/release.yml` — same modernization; bumped `svenstaro/upload-release-action@v1-release` → `@v2`; replaced hardcoded absolute paths with relative `dist/floor3d-card.js`
+
+### Process (enforced from this point forward)
+1. All feature work happens on `feature/**` branches
+2. Every push triggers the CI pipeline automatically
+3. A feature branch is merged into `develop` **only after** the `Lint & Build` check passes
+4. GitHub branch protection on `develop` enforces this gate — merges that bypass a green CI are rejected
+
+---
+
 ## [1.5.3-phase1] — 2026-03-17 — Build Pipeline Modernization
 
 ### Added

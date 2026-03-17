@@ -1,16 +1,17 @@
-name: Build
+name: CI
 
 on:
   push:
     branches:
-      - master
+      - 'feature/**'
   pull_request:
     branches:
-      - master
+      - develop
+      - release
 
 jobs:
-  build:
-    name: Test build
+  lint-and-build:
+    name: Lint & Build
     runs-on: ubuntu-latest
 
     steps:
@@ -33,5 +34,15 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Lint
+        run: npm run lint
+
       - name: Build
-        run: npm run build
+        run: npm run rollup
+
+      - name: Upload dist artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: floor3d-card-dist
+          path: dist/floor3d-card.js
+          retention-days: 7
