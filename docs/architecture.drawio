@@ -1,0 +1,315 @@
+<mxfile host="app.diagrams.net" modified="2026-03-17T00:00:00.000Z" agent="Claude Code" version="21.0.0" type="device">
+  <diagram name="floor3d-card Architecture" id="architecture-main">
+    <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- ===== TITLE ===== -->
+        <mxCell id="title" value="floor3d-card — Repository Architecture v1.5.3" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1;fontColor=#1a1a2e;" vertex="1" parent="1">
+          <mxGeometry x="400" y="20" width="854" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- ===== LEGEND ===== -->
+        <mxCell id="legend-bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="20" y="20" width="160" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-title" value="Legend" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="20" y="25" width="160" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="leg1" value="Source File (.ts)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="30" y="55" width="140" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="leg2" value="Internal Module" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="30" y="88" width="140" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="leg3" value="External Dependency" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="30" y="121" width="140" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="leg4" value="HA / Browser Runtime" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="30" y="154" width="140" height="25" as="geometry" />
+        </mxCell>
+
+        <!-- ===== HOME ASSISTANT RUNTIME ===== -->
+        <mxCell id="ha-bg" value="Home Assistant Frontend Runtime" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;verticalAlign=top;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="20" y="220" width="340" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="ha-lovelace" value="Lovelace Dashboard" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="40" y="260" width="140" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ha-hass" value="hass object\n(HomeAssistant)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="200" y="260" width="140" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ha-websocket" value="WebSocket\n(home-assistant-js-websocket)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="40" y="320" width="140" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ha-entities" value="Entity States\n(HassEntity)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="200" y="320" width="140" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ha-browser" value="Browser / WebGL Context" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="40" y="380" width="300" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- ===== DIST OUTPUT ===== -->
+        <mxCell id="dist-bg" value="dist/" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;verticalAlign=top;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="20" y="450" width="340" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="dist-file" value="floor3d-card.js\n(Bundled ES Module — served to HA)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="40" y="480" width="300" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- ===== BUILD PIPELINE ===== -->
+        <mxCell id="build-bg" value="Build Pipeline" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;verticalAlign=top;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="20" y="560" width="340" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="build-rollup" value="rollup v2\n(rollup.config.js)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="40" y="600" width="140" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="build-ts" value="TypeScript v4\n(tsconfig.json)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="200" y="600" width="140" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="build-babel" value="Babel\n(transpilation)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="40" y="660" width="130" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="build-terser" value="Terser\n(minification)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="190" y="660" width="130" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="build-eslint" value="ESLint + Prettier\n(code quality)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="40" y="720" width="300" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- ===== CORE SOURCE FILES ===== -->
+        <mxCell id="src-bg" value="src/ — Source Files" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;verticalAlign=top;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="400" y="100" width="860" height="540" as="geometry" />
+        </mxCell>
+
+        <!-- floor3d-card.ts - Main -->
+        <mxCell id="src-main" value="floor3d-card.ts (3285 lines)&#xa;Floor3dCard extends LitElement&#xa;─────────────────────────────&#xa;• 3D scene lifecycle (init/update/destroy)&#xa;• Entity binding → Three.js objects&#xa;• OBJ / GLB model loading&#xa;• OrbitControls (camera)&#xa;• Doors: swing / slide / pivot&#xa;• Rooms: color / transparency&#xa;• Lights: on/off / brightness&#xa;• Labels / Text overlays&#xa;• Raycasting (click/hover)&#xa;• Level selector UI&#xa;• Zoom areas&#xa;• Gesture &amp; rotate animations&#xa;• Shadow / sky dome" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;align=left;spacingLeft=8;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="420" y="140" width="290" height="240" as="geometry" />
+        </mxCell>
+
+        <!-- editor.ts -->
+        <mxCell id="src-editor" value="editor.ts (2956 lines)&#xa;Floor3dCardEditor extends LitElement&#xa;─────────────────────────────&#xa;• Lovelace visual editor&#xa;• Entity config forms&#xa;• Object group editor&#xa;• Zoom area editor&#xa;• Dynamic MWC form fields&#xa;• Config serialization" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;align=left;spacingLeft=8;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="730" y="140" width="250" height="180" as="geometry" />
+        </mxCell>
+
+        <!-- helpers.ts -->
+        <mxCell id="src-helpers" value="helpers.ts (219 lines)&#xa;─────────────────────────────&#xa;• mergeDeep()&#xa;• createConfigArray()&#xa;• createObjectGroupConfigArray()&#xa;• createEditorConfigArray()&#xa;• createEditorObjectGroupConfigArray()&#xa;• createEditorZoomConfigArray()&#xa;• arrayMove()&#xa;• getLovelace()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="730" y="340" width="250" height="180" as="geometry" />
+        </mxCell>
+
+        <!-- const.ts -->
+        <mxCell id="src-const" value="const.ts&#xa;─────────────────────────────&#xa;• CARD_VERSION = '1.5.3'" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="420" y="400" width="200" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- types.ts -->
+        <mxCell id="src-types" value="types.ts&#xa;─────────────────────────────&#xa;• Floor3dCardConfig (interface)&#xa;• HTMLElementTagNameMap (global)&#xa;• 40+ config properties typed" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="420" y="490" width="200" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- ensureComponents.ts -->
+        <mxCell id="src-ensure" value="ensureComponents.ts&#xa;─────────────────────────────&#xa;• loadHaComponents()&#xa;  Lazy-loads HA custom elements&#xa;  (hui-action-editor, ha-entity-picker...)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="640" y="490" width="270" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- localize -->
+        <mxCell id="src-localize-bg" value="src/localize/" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;verticalAlign=top;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="930" y="140" width="300" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="src-localize-ts" value="localize.ts&#xa;• localize(string, search, replace)&#xa;• Language: localStorage key" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="940" y="170" width="270" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="src-lang-en" value="languages/en.json" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="940" y="245" width="120" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="src-lang-nb" value="languages/nb.json" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="1090" y="245" width="120" height="25" as="geometry" />
+        </mxCell>
+
+        <!-- elements -->
+        <mxCell id="elements-bg" value="elements/ — Custom MWC Wrappers" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;verticalAlign=top;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="930" y="310" width="300" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="el-button" value="button.ts&#xa;floor3d-button&#xa;extends ButtonBase" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="940" y="340" width="130" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="el-formfield" value="formfield.ts&#xa;floor3d-formfield&#xa;extends FormfieldBase" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="1090" y="340" width="130" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="el-select" value="select.ts&#xa;floor3d-select&#xa;extends SelectBase" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="940" y="400" width="130" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="el-textfield" value="textfield.ts&#xa;floor3d-textfield&#xa;extends TextFieldBase" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="1090" y="400" width="130" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- config files -->
+        <mxCell id="src-config-bg" value="Config Files" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;verticalAlign=top;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="930" y="490" width="300" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="cfg-hacs" value="hacs.json" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="940" y="520" width="130" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="cfg-tsconfig" value="tsconfig.json" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="1090" y="520" width="130" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="cfg-rollup" value="rollup.config.js" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="940" y="555" width="130" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="cfg-eslint" value=".eslintrc.js" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="1090" y="555" width="130" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="cfg-prettier" value=".prettierrc.js" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="940" y="590" width="130" height="25" as="geometry" />
+        </mxCell>
+
+        <!-- ===== EXTERNAL DEPENDENCIES ===== -->
+        <mxCell id="ext-bg" value="External Dependencies (npm)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;verticalAlign=top;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="400" y="680" width="860" height="340" as="geometry" />
+        </mxCell>
+
+        <!-- Lit -->
+        <mxCell id="ext-lit-bg" value="lit v2.x (^2.0.0)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;verticalAlign=top;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="420" y="720" width="280" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="ext-lit-core" value="LitElement, html, css&#xa;TemplateResult, PropertyValues&#xa;CSSResultGroup, render" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=6;" vertex="1" parent="1">
+          <mxGeometry x="430" y="750" width="250" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="ext-lit-dec" value="lit/decorators: @customElement @property @state" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="430" y="808" width="260" height="25" as="geometry" />
+        </mxCell>
+
+        <!-- Three.js -->
+        <mxCell id="ext-three-bg" value="three.js r130 (^0.130.1)  ⚠️ 53 versions behind" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;verticalAlign=top;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="720" y="720" width="260" height="240" as="geometry" />
+        </mxCell>
+        <mxCell id="ext-three-core" value="THREE.Scene, Camera&#xa;WebGLRenderer, Mesh&#xa;Material, Geometry&#xa;Light, Object3D" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=6;" vertex="1" parent="1">
+          <mxGeometry x="730" y="750" width="230" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="ext-three-orbit" value="OrbitControls" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="730" y="825" width="105" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="ext-three-obj" value="OBJLoader" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="845" y="825" width="105" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="ext-three-mtl" value="MTLLoader" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="730" y="860" width="105" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="ext-three-gltf" value="GLTFLoader" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="845" y="860" width="105" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="ext-three-sky" value="Sky (sky dome)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="730" y="895" width="220" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="ext-three-sprite" value="three-spritetext ^1.6.4" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="730" y="930" width="220" height="25" as="geometry" />
+        </mxCell>
+
+        <!-- Other deps -->
+        <mxCell id="ext-other-bg" value="Other Runtime Dependencies" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;verticalAlign=top;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="720" width="240" height="240" as="geometry" />
+        </mxCell>
+        <mxCell id="ext-cch" value="custom-card-helpers ^1.7.2&#xa;HomeAssistant, ActionHandlerEvent&#xa;handleAction, LovelaceCardEditor&#xa;fireEvent" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=6;" vertex="1" parent="1">
+          <mxGeometry x="1010" y="750" width="220" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="ext-ha-ws" value="home-assistant-js-websocket ^5.11.1&#xa;HassEntity" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=6;" vertex="1" parent="1">
+          <mxGeometry x="1010" y="825" width="220" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="ext-tween" value="@tweenjs/tween.js ^18.6.4&#xa;Animations (door/rotate)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=6;" vertex="1" parent="1">
+          <mxGeometry x="1010" y="880" width="220" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ext-mwc" value="@material/mwc-* ^0.25.3&#xa;button, select, textfield&#xa;icon, list, menu, switch" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=6;" vertex="1" parent="1">
+          <mxGeometry x="1010" y="930" width="220" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="ext-lit-scoped" value="@lit-labs/scoped-registry-mixin ^1.0.0" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="420" y="855" width="270" height="25" as="geometry" />
+        </mxCell>
+
+        <!-- ===== ARROWS — src/floor3d-card.ts imports ===== -->
+        <mxCell id="arr-main-editor" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=1;exitY=0.3;entryX=0;entryY=0.3;strokeColor=#6c8ebf;" edge="1" parent="1" source="src-main" target="src-editor">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-main-helpers" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;" edge="1" parent="1" source="src-main" target="src-helpers">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-main-types" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;" edge="1" parent="1" source="src-main" target="src-types">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-main-const" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;" edge="1" parent="1" source="src-main" target="src-const">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-main-localize" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;" edge="1" parent="1" source="src-main" target="src-localize-bg">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-main-button" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;" edge="1" parent="1" source="src-main" target="elements-bg">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-editor-helpers" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;" edge="1" parent="1" source="src-editor" target="src-helpers">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-editor-ensure" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;" edge="1" parent="1" source="src-editor" target="src-ensure">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-editor-elements" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#82b366;" edge="1" parent="1" source="src-editor" target="elements-bg">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ===== ARROWS — external imports ===== -->
+        <mxCell id="arr-main-lit" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#d6b656;dashed=1;" edge="1" parent="1" source="src-main" target="ext-lit-bg">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-main-three" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#d6b656;dashed=1;" edge="1" parent="1" source="src-main" target="ext-three-bg">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-main-cch" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#d6b656;dashed=1;" edge="1" parent="1" source="src-main" target="ext-cch">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-main-tween" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#d6b656;dashed=1;" edge="1" parent="1" source="src-main" target="ext-tween">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-main-haws" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#d6b656;dashed=1;" edge="1" parent="1" source="src-main" target="ext-ha-ws">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- build arrow -->
+        <mxCell id="arr-build-dist" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#9673a6;strokeWidth=2;" edge="1" parent="1" source="build-bg" target="dist-bg">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-src-build" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6c8ebf;strokeWidth=2;" edge="1" parent="1" source="src-bg" target="build-bg">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-dist-ha" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#b85450;strokeWidth=2;" edge="1" parent="1" source="dist-bg" target="ha-bg">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ===== GIT BRANCH STRUCTURE ===== -->
+        <mxCell id="git-bg" value="Git Branch Strategy" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f3ff;strokeColor=#0050ef;verticalAlign=top;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1280" y="100" width="340" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="git-master" value="master\n(production — stable)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0050ef;fontColor=#ffffff;strokeColor=#003cb3;" vertex="1" parent="1">
+          <mxGeometry x="1370" y="140" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="git-release" value="release\n(release candidates)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1e88e5;fontColor=#ffffff;strokeColor=#1565c0;" vertex="1" parent="1">
+          <mxGeometry x="1370" y="210" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="git-develop" value="develop\n(integration)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#42a5f5;fontColor=#ffffff;strokeColor=#1976d2;" vertex="1" parent="1">
+          <mxGeometry x="1370" y="280" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="git-feature" value="feature/*\n(development)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#90caf9;strokeColor=#1976d2;" vertex="1" parent="1">
+          <mxGeometry x="1370" y="350" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-git1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#0050ef;strokeWidth=2;" edge="1" parent="1" source="git-master" target="git-release">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-git2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#1e88e5;strokeWidth=2;" edge="1" parent="1" source="git-release" target="git-develop">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-git3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#42a5f5;strokeWidth=2;" edge="1" parent="1" source="git-develop" target="git-feature">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
