@@ -43,6 +43,6 @@ jobs:
       - name: Upload dist artifact
         uses: actions/upload-artifact@v4
         with:
-          name: floor3d-card-dist
-          path: dist/floor3d-card.js
+          name: new-floor3d-card-dist
+          path: dist/new-floor3d-card.js
           retention-days: 7

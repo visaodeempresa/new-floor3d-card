@@ -8,7 +8,7 @@ import json from '@rollup/plugin-json';
 export default {
   input: ["src/floor3d-card.ts"],
   output: {
-    dir: "./dist",
+    file: "./dist/new-floor3d-card.js",
     format: "es",
   },
   plugins: [

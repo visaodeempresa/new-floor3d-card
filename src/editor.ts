@@ -16,7 +16,7 @@ import '../elements/formfield';
 import '../elements/select';
 import '../elements/textfield';
 
-@customElement('floor3d-card-editor')
+@customElement('new-floor3d-card-editor')
 export class Floor3dCardEditor extends LitElement implements LovelaceCardEditor {
   @property({ attribute: false }) public hass?: HomeAssistant;
   @state() private _config?: Floor3dCardConfig;
@@ -367,7 +367,7 @@ export class Floor3dCardEditor extends LitElement implements LovelaceCardEditor 
     root = root && root.shadowRoot;
     root = root && root.querySelector('ha-dialog');
 
-    const preview_card: HTMLCollection = root.getElementsByTagName('floor3d-card');
+    const preview_card: HTMLCollection = root.getElementsByTagName('new-floor3d-card');
 
     if (preview_card.length == 0) {
       return null;
