@@ -1,7 +1,7 @@
 {
-  "name": "floor3d-card",
+  "name": "new-floor3d-card",
   "version": "1.5.3",
-  "description": "Your HA Digital Twin aka floor3d-card",
+  "description": "Your HA Digital Twin aka new-floor3d-card",
   "keywords": [
     "home-assistant",
     "homeassistant",
@@ -10,7 +10,8 @@
     "lovelace",
     "custom-cards"
   ],
-  "module": "floor3d-card.js",
+  "type": "module",
+  "module": "new-floor3d-card.js",
   "repository": "git@github.com:custom_cards/floor3d-card.git",
   "author": "Andrea Di Zanni <adizanni@msn.com>",
   "license": "MIT",
@@ -36,10 +37,14 @@
     "three-spritetext": "^1.6.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.14.6",
-    "@babel/plugin-proposal-class-properties": "^7.14.5",
-    "@babel/plugin-proposal-decorators": "^7.14.5",
-    "@rollup/plugin-json": "^4.1.0",
+    "@babel/core": "^7.23.0",
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
+    "@babel/plugin-proposal-decorators": "^7.23.0",
+    "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-terser": "^0.4.4",
     "@types/three": "^0.130.0",
     "@typescript-eslint/eslint-plugin": "^4.28.2",
     "@typescript-eslint/parser": "^4.28.2",
@@ -50,14 +55,10 @@
     "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-prettier": "^3.4.0",
     "prettier": "^2.3.2",
-    "rollup": "^2.62.0",
-    "rollup-plugin-babel": "^4.4.0",
-    "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup": "^4.14.0",
     "rollup-plugin-serve": "^1.1.0",
-    "rollup-plugin-terser": "^7.0.2",
-    "rollup-plugin-typescript2": "^0.30.0",
-    "typescript": "^4.3.5"
+    "rollup-plugin-typescript2": "^0.36.0",
+    "typescript": "^5.4.0"
   },
   "scripts": {
     "start": "rollup -c rollup.config.dev.js --watch",

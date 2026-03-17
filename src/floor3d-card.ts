@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { LitElement, html, TemplateResult, css, PropertyValues, CSSResultGroup, render } from 'lit';
-import { property, customElement, state } from 'lit/decorators';
+import { property, customElement, state } from 'lit/decorators.js';
 import {
   HomeAssistant,
   ActionHandlerEvent,
@@ -27,7 +27,7 @@ import '../elements/button';
 
 /* eslint no-console: 0 */
 console.info(
-  `%c  FLOOR3D-CARD \n%c  ${localize('common.version')} ${CARD_VERSION}    `,
+  `%c  NEW-FLOOR3D-CARD \n%c  ${localize('common.version')} ${CARD_VERSION}    `,
   'color: orange; font-weight: bold; background: black',
   'color: white; font-weight: bold; background: dimgray',
 );
@@ -35,8 +35,8 @@ console.info(
 // This puts your card into the UI card picker dialog
 (window as any).customCards = (window as any).customCards || [];
 (window as any).customCards.push({
-  type: 'floor3d-card',
-  name: 'Floor3d Card',
+  type: 'new-floor3d-card',
+  name: 'New Floor3d Card',
   preview: true,
   description: 'A custom card to visualize and activate entities in a live 3D model',
 });
@@ -46,7 +46,7 @@ class ModelSource {
 }
 
 // TODO Name your custom element
-@customElement('floor3d-card')
+@customElement('new-floor3d-card')
 export class Floor3dCard extends LitElement {
   private _scene?: THREE.Scene;
   private _camera?: THREE.PerspectiveCamera;
@@ -213,7 +213,7 @@ export class Floor3dCard extends LitElement {
 
   public static async getConfigElement(): Promise<LovelaceCardEditor> {
     await import('./editor');
-    return document.createElement('floor3d-card-editor');
+    return document.createElement('new-floor3d-card-editor');
   }
 
   public static getStubConfig(hass: HomeAssistant, entities: string[], entitiesFallback: string[]): object {
@@ -298,7 +298,7 @@ export class Floor3dCard extends LitElement {
     let path = url.pathname.replace(asset, '');
 
     if (path.includes('hacsfiles')) {
-      path = '/local/community/floor3d-card/';
+      path = '/local/community/new-floor3d-card/';
     }
 
     const conf = {
@@ -394,7 +394,7 @@ export class Floor3dCard extends LitElement {
   // https://lit-element.polymer-project.org/guide/properties#accessors-custom
   public setConfig(config: Floor3dCardConfig): void {
     // TODO Check for required fields and that they are of the proper format
-    console.log('floor3d-card: Set Config Start');
+    console.log('new-floor3d-card: Set Config Start');
 
     if (!config) {
       throw new Error(localize('common.invalid_configuration'));
@@ -420,7 +420,7 @@ export class Floor3dCard extends LitElement {
       i += 1;
     });
 
-    console.log('floor3d-card: Set Config End');
+    console.log('new-floor3d-card: Set Config End');
 
     if (this._config.show_warning) {
       render(this._showWarning(localize('common.show_warning')), this._card);

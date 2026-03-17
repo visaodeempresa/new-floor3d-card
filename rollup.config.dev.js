@@ -1,21 +1,22 @@
-import resolve from "rollup-plugin-node-resolve";
+import resolve from "@rollup/plugin-node-resolve";
 import typescript from "rollup-plugin-typescript2";
-import babel from "rollup-plugin-babel";
+import babel from "@rollup/plugin-babel";
 import serve from "rollup-plugin-serve";
-import { terser } from "rollup-plugin-terser";
+import terser from "@rollup/plugin-terser";
 import json from '@rollup/plugin-json';
 
 export default {
   input: ["src/floor3d-card.ts"],
   output: {
-    dir: "./dist",
+    file: "./dist/new-floor3d-card.js",
     format: "es",
   },
   plugins: [
-    resolve(),
+    resolve({ browser: true }),
     typescript(),
     json(),
     babel({
+      babelHelpers: 'bundled',
       exclude: "node_modules/**",
     }),
     terser(),

@@ -3,7 +3,7 @@ import { ActionConfig, LovelaceCard, LovelaceCardEditor } from 'custom-card-help
 
 declare global {
   interface HTMLElementTagNameMap {
-    'floor3d-card-editor': LovelaceCardEditor;
+    'new-floor3d-card-editor': LovelaceCardEditor;
     'hui-error-card': LovelaceCard;
   }
 }
