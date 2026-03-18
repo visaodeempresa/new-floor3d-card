@@ -2553,7 +2553,7 @@ export class Floor3dCard extends LitElement {
           newRoomBox.expandByVector(expansion);
 
           const dimensions = new THREE.Vector3().subVectors(newRoomBox.max, newRoomBox.min);
-          const newRoomGeometry: THREE.BoxBufferGeometry = new THREE.BoxBufferGeometry(
+          const newRoomGeometry: THREE.BoxGeometry = new THREE.BoxGeometry(
             dimensions.x - 4,
             dimensions.y - 4,
             dimensions.z - 4,
