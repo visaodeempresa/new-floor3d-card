@@ -1311,7 +1311,6 @@ export class Floor3dCard extends LitElement {
       this._scene.background = new THREE.Color('#aaaaaa');
     }
 
-    //this._renderer.physicallyCorrectLights = true;
     if (this._config.sky && this._config.sky == 'yes') {
       this._renderer.outputEncoding = THREE.sRGBEncoding;
     }
@@ -1319,7 +1318,7 @@ export class Floor3dCard extends LitElement {
     //this._renderer.toneMapping = THREE.ACESFilmicToneMapping;
     this._renderer.toneMappingExposure = 0.6;
     this._renderer.localClippingEnabled = true;
-    this._renderer.physicallyCorrectLights = false;
+    this._renderer.useLegacyLights = true;
 
     if (this._config.path && this._config.path != '') {
       let path = this._config.path;
