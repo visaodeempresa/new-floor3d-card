@@ -99,6 +99,7 @@ export class Floor3dCard extends LitElement {
   private _round_per_seconds: number[];
   private _rotation_state: number[];
   private _rotation_index: number[];
+  private _rotation_objects: THREE.Object3D[][];
   private _animated_transitions: any[];
   private _clock?: THREE.Timer;
   private _slidingdoor: THREE.Group[];
@@ -110,6 +111,8 @@ export class Floor3dCard extends LitElement {
   private _resizeTimeout?: number;
   private _resizeObserver: ResizeObserver;
   private _zIndexInterval: number;
+  private _mouse: THREE.Vector2;
+  private _raycaster: THREE.Raycaster;
   private _performActionListener: EventListener;
   private _clickStart?: number;
   private _mousedownEventListener: EventListener;
@@ -168,11 +171,17 @@ export class Floor3dCard extends LitElement {
 
       this._clickStart = null;
     };
+    this._mouse = new THREE.Vector2();
+    this._raycaster = new THREE.Raycaster();
     this._changeListener = () => {
       if (this._clickStart && Date.now() - this._clickStart > 200) {
         this._clickStart = null;
       }
-      this._render();
+      // If the animation loop is already running it renders every frame and
+      // updates the torch — avoid a redundant synchronous render here.
+      if (!this._to_animate) {
+        this._render();
+      }
     };
     this._haShadowRoot = document.querySelector('home-assistant').shadowRoot;
     this._eval = eval;
@@ -566,13 +575,10 @@ export class Floor3dCard extends LitElement {
   }
 
   private _getintersect(e: any): THREE.Intersection[] {
-    const mouse: THREE.Vector2 = new THREE.Vector2();
-    mouse.x = (e.offsetX / this._content.clientWidth) * 2 - 1;
-    mouse.y = -(e.offsetY / this._content.clientHeight) * 2 + 1;
-    const raycaster: THREE.Raycaster = new THREE.Raycaster();
-    raycaster.setFromCamera(mouse, this._camera);
-    const intersects: THREE.Intersection[] = raycaster.intersectObjects(this._raycasting, false);
-    return intersects;
+    this._mouse.x = (e.offsetX / this._content.clientWidth) * 2 - 1;
+    this._mouse.y = -(e.offsetY / this._content.clientHeight) * 2 + 1;
+    this._raycaster.setFromCamera(this._mouse, this._camera);
+    return this._raycaster.intersectObjects(this._raycasting, false);
   }
 
   private _mousedownEvent(e: any): void {
@@ -752,8 +758,9 @@ export class Floor3dCard extends LitElement {
   }
 
   private _zIndexChecker(): void {
-    let centerX = (this._card.getBoundingClientRect().left + this._card.getBoundingClientRect().right) / 2;
-    let centerY = (this._card.getBoundingClientRect().top + this._card.getBoundingClientRect().bottom) / 2;
+    const rect = this._card.getBoundingClientRect();
+    const centerX = (rect.left + rect.right) / 2;
+    const centerY = (rect.top + rect.bottom) / 2;
     let topElement = this._haShadowRoot.elementFromPoint(centerX, centerY);
 
     if (topElement != null) {
@@ -2046,6 +2053,7 @@ export class Floor3dCard extends LitElement {
         this._axis_to_rotate = [];
         this._rotation_state = [];
         this._rotation_index = [];
+        this._rotation_objects = [];
         this._animated_transitions = [];
         this._pivot = [];
         this._axis_for_door = [];
@@ -2070,6 +2078,13 @@ export class Floor3dCard extends LitElement {
                 this._axis_to_rotate.push(entity.rotate.axis);
                 this._rotation_state.push(0);
                 this._rotation_index.push(i);
+                // Cache direct object references so the animation loop avoids
+                // scene-graph traversal (getObjectByName) on every frame.
+                this._rotation_objects.push(
+                  this._object_ids[i].objects
+                    .map((el) => this._scene.getObjectByName(el.object_id))
+                    .filter((o): o is THREE.Object3D => o != null),
+                );
                 let bbox: THREE.Box3;
                 let hinge: any;
                 if (entity.rotate.hinge) {
@@ -3209,30 +3224,29 @@ export class Floor3dCard extends LitElement {
   private _animationLoop(timestamp: number) {
     this._clock.update(timestamp);
     const clockDelta = this._clock.getDelta();
-    let rotateBy = clockDelta * Math.PI * 2;
+    const rotateBy = clockDelta * Math.PI * 2;
 
     this._rotation_state.forEach((state, index) => {
       if (state == 0) return;
 
-      this._object_ids[this._rotation_index[index]].objects.forEach((element) => {
-        let _obj = this._scene.getObjectByName(element.object_id);
-        if (_obj) {
-          switch (this._axis_to_rotate[index]) {
-            case 'x':
-              _obj.rotation.x += this._round_per_seconds[index] * this._rotation_state[index] * rotateBy;
-              break;
-            case 'y':
-              _obj.rotation.y += this._round_per_seconds[index] * this._rotation_state[index] * rotateBy;
-              break;
-            case 'z':
-              _obj.rotation.z += this._round_per_seconds[index] * this._rotation_state[index] * rotateBy;
-              break;
-          }
+      const step = this._round_per_seconds[index] * state * rotateBy;
+      this._rotation_objects[index].forEach((_obj) => {
+        switch (this._axis_to_rotate[index]) {
+          case 'x': _obj.rotation.x += step; break;
+          case 'y': _obj.rotation.y += step; break;
+          case 'z': _obj.rotation.z += step; break;
         }
       });
     });
 
     TWEEN.update();
+
+    // Keep the torch (camera-follow directional light) in sync with the camera.
+    if (this._torch) {
+      this._torch.position.copy(this._camera.position);
+      this._torch.rotation.copy(this._camera.rotation);
+      this._camera.getWorldDirection(this._torch.target.position);
+    }
 
     this._renderer.shadowMap.needsUpdate = true;
     this._renderer.render(this._scene, this._camera);
