@@ -1312,7 +1312,7 @@ export class Floor3dCard extends LitElement {
     }
 
     if (this._config.sky && this._config.sky == 'yes') {
-      this._renderer.outputEncoding = THREE.sRGBEncoding;
+      this._renderer.outputColorSpace = THREE.SRGBColorSpace;
     }
     this._renderer.toneMapping = THREE.LinearToneMapping;
     //this._renderer.toneMapping = THREE.ACESFilmicToneMapping;
