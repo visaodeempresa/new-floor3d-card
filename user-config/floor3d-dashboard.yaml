@@ -1,0 +1,460 @@
+type: panel
+path: map-be-new
+title: CUBE
+icon: mdi:cube
+theme: green_dark_theme
+cards:
+  - type: vertical-stack
+    cards:
+      - type: custom:navbar-card
+        routes:
+          - url: /lovelace/default_view
+            label: HOME
+            icon: mdi:home
+            selected_color: none
+          - url: /mapa-de-luzes
+            label: LUZES
+            icon: mdi:lightbulb
+          - url: /temperatura-2d-vertical
+            label: TEMPERATURA
+            icon: mdi:thermometer
+          - url: /umidade-2d-vertical
+            label: UMIDADE
+            icon: mdi:water
+          - url: /mapa-de-eletricidade
+            label: ELETRICIDADE
+            icon: mdi:flash
+          - url: /3d-dashboard
+            label: 3D
+            icon: mdi:cube
+            icon_color: "#b8fcff"
+            selected_color: none
+        haptic:
+          url: true
+          tap_action: true
+          hold_action: true
+          double_tap_action: true
+        desktop:
+          position: left
+        styles: |
+          @keyframes float-hover {
+            0%, 100% { transform: translateY(0) scale(1); opacity: 1; }
+            50% { transform: translateY(-8px) scale(1.08); opacity: 0.95; }
+          }
+          .navbar-card {
+            box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22) !important;
+          }
+          .route {
+            will-change: transform;
+            transform: translateZ(0);
+            backface-visibility: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          }
+          .route ha-icon {
+            --mdc-icon-size: 38px;
+            will-change: transform, opacity;
+            transform: translateZ(0);
+            backface-visibility: hidden;
+            filter:
+              drop-shadow(1px 2px 2px rgba(0,0,0,0.6))
+              drop-shadow(3px 6px 8px rgba(0,0,0,0.4))
+              drop-shadow(6px 12px 16px rgba(0,0,0,0.25));
+          }
+          .route:last-child {
+            background: linear-gradient(145deg, #80f0ff, #40b8cc);
+            border: 1px solid rgba(0, 180, 210, 0.6);
+            border-radius: 12px;
+            box-shadow:
+              6px 6px 12px rgba(0,0,0,0.35),
+              -4px -4px 10px rgba(255,255,255,0.25),
+              inset 2px 2px 4px rgba(255,255,255,0.4),
+              inset -2px -2px 4px rgba(0,0,0,0.15);
+            margin: 4px;
+            padding: 2px;
+          }
+          .route:last-child:hover {
+            background: linear-gradient(145deg, #90f5ff, #50c2d5);
+            border-color: rgba(0, 200, 230, 0.8);
+            box-shadow:
+              4px 4px 8px rgba(0,0,0,0.3),
+              -2px -2px 6px rgba(255,255,255,0.3),
+              inset 3px 3px 6px rgba(255,255,255,0.5),
+              inset -3px -3px 6px rgba(0,0,0,0.2),
+              0 0 15px rgba(0, 229, 255, 0.5);
+          }
+          .route:last-child ha-icon {
+            animation: float-hover 3s ease-in-out infinite;
+            animation-delay: 2.5s;
+          }  /* 3D - Cyan Neon 🧊 (ATIVO) */
+          .route:last-child {
+            background: linear-gradient(145deg, #80f0ff, #40b8cc);
+            border: 1px solid rgba(0, 180, 210, 0.6);
+            border-radius: 12px;
+            box-shadow:
+              6px 6px 12px rgba(0, 0, 0, 0.35),
+              -4px -4px 10px rgba(255, 255, 255, 0.25),
+              inset 2px 2px 4px rgba(255, 255, 255, 0.4),
+              inset -2px -2px 4px rgba(0, 0, 0, 0.15);
+            margin: 4px;
+            padding: 2px;
+          }
+          .route:last-child:hover {
+            background: linear-gradient(145deg, #90f5ff, #50c2d5);
+            border-color: rgba(0, 200, 230, 0.8);
+            box-shadow:
+              4px 4px 8px rgba(0, 0, 0, 0.3),
+              -2px -2px 6px rgba(255, 255, 255, 0.3),
+              inset 3px 3px 6px rgba(255, 255, 255, 0.5),
+              inset -3px -3px 6px rgba(0, 0, 0, 0.2),
+              0 0 15px rgba(0, 229, 255, 0.5);
+          }
+          .route:last-child ha-icon {
+            animation: float-hover 3s ease-in-out infinite;
+            animation-delay: 2.5s;
+          }
+          /* 3D - Cyan Neon 🧊 (ATIVO) — nth-child(7) = 6ª rota + 1 offset */
+          .route:nth-child(7) {
+            background: linear-gradient(145deg, #80f0ff, #40b8cc);
+            border: 1px solid rgba(0, 180, 210, 0.6);
+            border-radius: 12px;
+          }
+      - type: custom:new-floor3d-card
+        path: https://mayconsoftware.github.io/floor/models/alfa/BASE-ALFA-01.02
+        objfile: home.obj
+        mtlfile: home.mtl
+        objectlist: home.json
+        lock_camera: "no"
+        name: Maycon Software
+        header: "no"
+        click: "yes"
+        overlay: "yes"
+        backgroundColor: "#444444"
+        hideLevelsMenu: "no"
+        globalLightPower: "0.15"
+        shadow: "no"
+        extralightmode: "no"
+        show_axes: "no"
+        sky: "no"
+        overlay_bgcolor: transparent
+        overlay_fgcolor: black
+        overlay_alignment: top-left
+        overlay_width: "33"
+        overlay_height: "20"
+        north:
+          x: 0
+          z: -1
+        camera_position:
+          x: 83.50313501350081
+          "y": 1149.1018002945139
+          z: 126.17753989288083
+        camera_rotate:
+          x: -1.5707953267950503
+          "y": 5.547077828538596e-10
+          z: 0.0005547078112726557
+        camera_target:
+          x: 83.50313437508956
+          "y": -1.7947090703327457
+          z: 126.17638899654852
+        entities:
+          - entity: binary_sensor.porta_da_cozinha
+            label: 🟨🚪PORTA_DA_COZINHA
+            type3d: door
+            object_id: <🟨🚪PORTA_DA_COZINHAEntranceDoor>
+            door:
+              percentage: "90"
+              direction: inner
+              doortype: swing
+              hinge: PORTA_DA_COZINHA_3
+          - entity: light.luz_da_cozinha
+            label: 🟨💡COZINHA_LUZ_COZINHA
+            type3d: light
+            object_id: COZINHA_LUZ_COZINHA_2
+            light:
+              lumens: "800"
+              vertical_alignment: top
+              shadow: "yes"
+          - entity: light.luz_da_lavanderia
+            label: 🟨💡COZINHA_LUZ_LAVANDERIA
+            type3d: light
+            object_id: COZINHA_LUZ_LAVANDERIA_2
+            light:
+              lumens: "800"
+              vertical_alignment: top
+              shadow: "yes"
+          - entity: binary_sensor.porta_do_apartamento_zigbee
+            label: 🟧🚪PORTA_DO_APARTAMENTO
+            type3d: door
+            object_id: <🟧🚪PORTA_DO_APARTAMENTOEntranceDoor>
+            door:
+              percentage: "90"
+              direction: inner
+              doortype: swing
+              hinge: PORTA_DO_APARTAMENTO_3
+          - entity: light.hall_da_sala_local
+            label: 🟧💡HALL_DA_SALA
+            type3d: light
+            object_id: HALL_DA_SALA_2
+            light:
+              lumens: "1400"
+              vertical_alignment: top
+              distance: "350"
+              decay: "1.6"
+              shadow: "no"
+          - entity: light.corredor_local
+            label: 🟧💡CORREDOR
+            type3d: light
+            object_id: CORREDOR_2
+            light:
+              lumens: "1400"
+              vertical_alignment: top
+              distance: "200"
+              decay: "0.8"
+              shadow: "no"
+          - entity: light.teto_da_sala_local
+            label: 🟧💡TETO_DA_SALA
+            type3d: light
+            object_id: TV_2
+            style:
+              z: 2.4
+              opacity: 0.5
+              size: 0.3
+            light:
+              lumens: "1600"
+              vertical_alignment: top
+              distance: "350"
+              decay: "1.6"
+              shadow: "no"
+          - entity: light.hall_da_sala_local
+            label: 🟧💡SALA_LUZ_HALL_DA_SALA
+            type3d: light
+            _object_id: <🟧💡SALA_LUZ_HALL_DA_SALAGrupal>
+            object_id: JANTAR_2
+            light:
+              lumens: "1400"
+              vertical_alignment: top
+              distance: "350"
+              decay: "1.6"
+              shadow: "no"
+          - entity: light.luz_da_sala_de_yoga
+            label: 🟧💡LUZ_DA_SALA_DE_YOGA
+            type3d: light
+            _object_id: <🟧💡SALA_LUZ_HALL_DA_SALAGrupal>
+            object_id: YOGA_2
+            light:
+              lumens: "1400"
+              vertical_alignment: top
+              distance: "350"
+              decay: "1.6"
+              shadow: "no"
+          - entity: light.corredor_local
+            label: 🟧💡SALA_LUZ_CORREDOR
+            type3d: light
+            _object_id: <🟧💡SALA_LUZ_CORREDORGrupal>
+            object_id: CORREDOR_2
+            light:
+              lumens: "1400"
+              vertical_alignment: top
+              distance: "200"
+              decay: "0.8"
+              shadow: "no"
+          - entity: binary_sensor.porta_do_escritorio
+            label: ⬛️🚪PORTA_DO_ESCRITORIO
+            type3d: door
+            object_id: <⬛️🚪PORTA_DO_ESCRITORIOEntranceDoor>
+            door:
+              percentage: "90"
+              direction: inner
+              doortype: swing
+              hinge: PORTA_DO_ESCRITORIO_3
+          - entity: light.teto_local
+            label: ⬛️💡ESCRITORIO_LUZ_TETO
+            type3d: light
+            _object_id: <⬛️💡ESCRITORIO_LUZ_TETOGrupal>
+            object_id: ESCRITORIO_LUZ_TETO_2
+            light:
+              lumens: "1200"
+              vertical_alignment: top
+              shadow: "yes"
+          - entity: light.mesa_local
+            label: ⬛️💡ESCRITORIO_LUZ_MESA
+            type3d: light
+            object_id: ESCRITORIO_LUZ_MESA_3
+            light:
+              shadow: "no"
+              vertical_alignment: middle
+              distance: "75"
+              lumens: "1200"
+              decay: "1.4"
+          - entity: light.oeste_local
+            label: ⬛️💈OESTE
+            type3d: light
+            _object_id: <⬛️💈OESTEGrupal>
+            object_id: OESTE_2
+            light:
+              lumens: "1400"         # ATUAL - pode precisar de ajuste
+              position:
+                x: 100
+                "y": 50
+                z: 150
+              distance: "125"        # ATUAL - curto para cobrir a cortina
+              decay: "2"             # ATUAL - cai muito rápido no modo físico
+              vertical_alignment: top
+              shadow: "no"
+          - entity: light.leste_local
+            label: ⬛️💈LESTE
+            type3d: light
+            _object_id: <⬛️💈LESTEGrupal>
+            object_id: LESTE_2
+            light:
+              lumens: "1400"         # ATUAL - pode precisar de ajuste
+              position:
+                x: 100
+                "y": 50
+                z: 150
+              distance: "125"        # ATUAL - curto para cobrir a cortina
+              decay: "2"             # ATUAL - cai muito rápido no modo físico
+              vertical_alignment: top
+              shadow: "no"
+          - entity: light.mistica_local
+            label: ⬛️🗄️ESCRITORIO_MISTICA_LED
+            type3d: light
+            _object_id: <⬛️🗄️ESCRITORIO_MISTICA_LEDGrupal>
+            object_id: ESCRITORIO_ESTANTE_MISTICA_1
+            light:
+              lumens: "200"
+              vertical_alignment: top
+              distance: "250"
+              decay: "1.0"
+              shadow: "no"
+          - entity: light.bibliotech_local
+            label: ⬛️🗄️ESCRITORIO_BIBLIOTECH_LED
+            type3d: light
+            _object_id: <⬛️🗄️ESCRITORIO_BIBLIOTECH_LEDGrupal>
+            object_id: ESCRITORIO_ESTANTE_BIBLIOTECH_1
+            light:
+              lumens: "200"
+              vertical_alignment: top
+              distance: "250"
+              decay: "1.0"
+              shadow: "no"
+          - entity: binary_sensor.porta_do_quarto
+            label: 🟦🚪PORTA_DO_QUARTO
+            type3d: door
+            object_id: <🟦🚪PORTA_DO_QUARTOEntranceDoor>
+            door:
+              percentage: "90"
+              direction: outer
+              doortype: swing
+              hinge: PORTA_DO_QUARTO_3
+          - entity: binary_sensor.porta_do_banheiro_social
+            label: 🟩🚪PORTA_DO_BANHEIRO_SOCIAL
+            type3d: door
+            object_id: <🟩🚪PORTA_DO_BANHEIRO_SOCIALEntranceDoor>
+            door:
+              percentage: "90"
+              direction: outer
+              doortype: swing
+              hinge: PORTA_DO_BANHEIRO_SOCIAL_3
+          - entity: light.luz_do_espelho_social
+            label: 🟩💡BANHEIRO_SOCIAL_LUZ_ESPELHO
+            type3d: light
+            object_id: BANHEIRO_SOCIAL_LUZ_ESPELHO_2
+            light:
+              lumens: "800"
+              vertical_alignment: top
+              shadow: "yes"
+          - entity: light.luz_do_chuveiro_social
+            label: 🟩💡BANHEIRO_SOCIAL_LUZ_CHUVEIRO
+            type3d: light
+            object_id: BANHEIRO_SOCIAL_LUZ_CHUVEIRO_2
+            light:
+              lumens: "800"
+              vertical_alignment: top
+              shadow: "no"
+          - entity: binary_sensor.porta_da_suite
+            label: 🟪🚪PORTA_DA_SUITE
+            type3d: door
+            object_id: <🟪🚪PORTA_DA_SUITEEntranceDoor>
+            door:
+              percentage: "90"
+              direction: outer
+              doortype: swing
+              hinge: PORTA_DO_QUARTO_3
+          - entity: light.entrada_da_suite
+            label: 🟪💡SUITE_LUZ_ENTRADA
+            type3d: light
+            _object_id: <🟪💡SUITE_LUZ_ENTRADAGrupal>
+            object_id: SUITE_LUZ_ENTRADA_2
+            light:
+              lumens: "1400"
+              vertical_alignment: top
+              distance: "200"
+              decay: "0.8"
+              shadow: "no"
+          - entity: light.luz_do_espelho_da_suite
+            label: 🟪💡SUITE_BANHEIRO_LUZ_ESPELHO
+            type3d: light
+            object_id: SUITE_BANHEIRO_LUZ_ESPELHO_2
+            light:
+              lumens: "800"
+              vertical_alignment: top
+              shadow: "yes"
+          - entity: light.luz_do_chuveiro_da_suite
+            label: 🟪💡SUITE_BANHEIRO_LUZ_CHUVEIRO
+            type3d: light
+            object_id: SUITE_BANHEIRO_LUZ_CHUVEIRO_2
+            light:
+              lumens: "800"
+              vertical_alignment: top
+              shadow: "yes"
+          - entity: binary_sensor.porta_do_banheiro_da_suite
+            label: ⬜️🚪PORTA_DO_BANHEIRO_DA_SUITE
+            type3d: door
+            object_id: <⬜️🚪PORTA_DO_BANHEIRO_DA_SUITEEntranceDoor>
+            door:
+              percentage: "90"
+              direction: outer
+              doortype: swing
+              hinge: PORTA_DO_BANHEIRO_DA_SUITE_3
+        object_groups:
+          - object_group: 🟨🚪PORTA_DA_COZINHAEntranceDoor
+            objects:
+              - object_id: PORTA_DA_COZINHA_9
+              - object_id: PORTA_DA_COZINHA_7
+              - object_id: PORTA_DA_COZINHA_5
+          - object_group: 🟧🚪PORTA_DO_APARTAMENTOEntranceDoor
+            objects:
+              - object_id: PORTA_DO_APARTAMENTO_9
+              - object_id: PORTA_DO_APARTAMENTO_7
+              - object_id: PORTA_DO_APARTAMENTO_5
+          - object_group: ⬛️🚪PORTA_DO_ESCRITORIOEntranceDoor
+            objects:
+              - object_id: PORTA_DO_ESCRITORIO_9
+              - object_id: PORTA_DO_ESCRITORIO_7
+              - object_id: PORTA_DO_ESCRITORIO_5
+          - object_group: 🟦🚪PORTA_DO_QUARTOEntranceDoor
+            objects:
+              - object_id: PORTA_DO_QUARTO_9
+              - object_id: PORTA_DO_QUARTO_7
+              - object_id: PORTA_DO_QUARTO_5
+          - object_group: 🟩🚪PORTA_DO_BANHEIRO_SOCIALEntranceDoor
+            objects:
+              - object_id: PORTA_DO_BANHEIRO_SOCIAL_9
+              - object_id: PORTA_DO_BANHEIRO_SOCIAL_7
+              - object_id: PORTA_DO_BANHEIRO_SOCIAL_5
+          - object_group: 🟪🚪PORTA_DA_SUITEEntranceDoor
+            objects:
+              - object_id: PORTA_DA_SUITE_9
+              - object_id: PORTA_DA_SUITE_7
+              - object_id: PORTA_DA_SUITE_5
+          - object_group: ⬜️🚪PORTA_DO_BANHEIRO_DA_SUITEEntranceDoor
+            objects:
+              - object_id: PORTA_DO_BANHEIRO_DA_SUITE_9
+              - object_id: PORTA_DO_BANHEIRO_DA_SUITE_7
+              - object_id: PORTA_DO_BANHEIRO_DA_SUITE_5
+        zoom_areas:
+          - zoom: ""
+        selectionMode: "no"
+        editModeNotifications: "yes"
+        grid_options:
+          columns: full
