@@ -1248,17 +1248,17 @@ export class Floor3dCard extends LitElement {
 
     if (this._hass.states[this._config.globalLightPower]) {
       if (!Number.isNaN(this._hass.states[this._config.globalLightPower].state)) {
-        this._torch.intensity = Number(this._hass.states[this._config.globalLightPower].state) * Math.PI;
+        this._torch.intensity = Number(this._hass.states[this._config.globalLightPower].state);
       }
     } else {
       if (this._config.globalLightPower) {
-        this._torch.intensity = Number(this._config.globalLightPower) * Math.PI;
+        this._torch.intensity = Number(this._config.globalLightPower);
       }
     }
   }
 
   private _initAmbient(): void {
-    let intensity = 0.5;
+    let intensity = 0.5 * Math.PI;
 
     if (this._hass.states[this._config.globalLightPower]) {
       if (!Number.isNaN(this._hass.states[this._config.globalLightPower].state)) {
@@ -1273,10 +1273,10 @@ export class Floor3dCard extends LitElement {
     if (this._config.sky == 'yes') {
       this._ambient_light = new THREE.HemisphereLight(0xffffff, 0x000000, 0.2 * Math.PI);
       this._ambient_light.groundColor.setHSL(0.095, 1, 0.75);
-      this._ambient_light.intensity = intensity * Math.PI;
+      this._ambient_light.intensity = intensity;
     } else {
       this._ambient_light = new THREE.AmbientLight(0xffffff, 0.2 * Math.PI);
-      this._ambient_light.intensity = intensity * Math.PI;
+      this._ambient_light.intensity = intensity;
     }
 
     this._scene.add(this._ambient_light);
