@@ -1605,14 +1605,37 @@ export class Floor3dCard extends LitElement {
       //this._raycasting.push(element);
 
       if (element instanceof THREE.Mesh) {
-        if (!Array.isArray((element as THREE.Mesh).material)) {
-          if (((element as THREE.Mesh).material as THREE.Material).opacity != 1) {
-            if ((element as THREE.Mesh).material instanceof THREE.MeshPhongMaterial) {
-              ((element as THREE.Mesh).material as THREE.MeshPhongMaterial).depthWrite = false;
-            } else if ((element as THREE.Mesh).material instanceof THREE.MeshBasicMaterial) {
-              ((element as THREE.Mesh).material as THREE.MeshBasicMaterial).depthWrite = false;
-            } else if ((element as THREE.Mesh).material instanceof THREE.MeshStandardMaterial) {
-              ((element as THREE.Mesh).material as THREE.MeshBasicMaterial).depthWrite = false;
+        const mesh = element as THREE.Mesh;
+
+        // Apply maximum anisotropic filtering to all texture maps so that
+        // surface details (fabric weave, curtain folds, wood grain) remain
+        // sharp when viewed at grazing angles.  Three.js r152+ defaults to
+        // anisotropy = 1 (no filtering), which makes textures look blurry.
+        const maxAnisotropy = this._renderer.capabilities.getMaxAnisotropy();
+        const MAP_KEYS = ['map', 'normalMap', 'bumpMap', 'specularMap', 'aoMap', 'emissiveMap', 'roughnessMap', 'metalnessMap'];
+        const applyAnisotropy = (mat: THREE.Material) => {
+          MAP_KEYS.forEach((key) => {
+            const tex = (mat as unknown as Record<string, unknown>)[key];
+            if (tex instanceof THREE.Texture && tex.anisotropy < maxAnisotropy) {
+              tex.anisotropy = maxAnisotropy;
+              tex.needsUpdate = true;
+            }
+          });
+        };
+        if (Array.isArray(mesh.material)) {
+          mesh.material.forEach(applyAnisotropy);
+        } else {
+          applyAnisotropy(mesh.material);
+        }
+
+        if (!Array.isArray(mesh.material)) {
+          if ((mesh.material as THREE.Material).opacity != 1) {
+            if (mesh.material instanceof THREE.MeshPhongMaterial) {
+              (mesh.material as THREE.MeshPhongMaterial).depthWrite = false;
+            } else if (mesh.material instanceof THREE.MeshBasicMaterial) {
+              (mesh.material as THREE.MeshBasicMaterial).depthWrite = false;
+            } else if (mesh.material instanceof THREE.MeshStandardMaterial) {
+              (mesh.material as THREE.MeshStandardMaterial).depthWrite = false;
             }
             element.castShadow = false;
             return;
