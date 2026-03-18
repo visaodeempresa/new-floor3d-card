@@ -122,10 +122,10 @@ usadas no projeto. A lista completa foi extraida de `src/floor3d-card.ts`:
 | Nivel | Qtd | Versoes |
 |---|---|---|
 | 🔴 Alto | **4** | r147, r150, r152, r183 |
-| 🟠 Medio | **4** | r137, r144, r145, r155, r182 |
-| ⚠️ Baixo | **8** | r133, r134, r138, r149, r151, r153, r163, r170, r177 |
+| 🟠 Medio | **5** | r137, r144, r145, r155, r182 |
+| ⚠️ Baixo | **10** | r132, r133, r134, r138, r149, r151, r153, r163, r170, r177 |
 | 💚 Minimo | **6** | r135, r136, r140, r148, r160, r181 |
-| ✅ Nenhum | **31** | r131, r132, r139, r141, r142, r143, r146, r154, r156-r159, r161, r162, r164-r169, r171-r176, r178-r180 |
+| ✅ Nenhum | **28** | r131, r139, r141, r142, r143, r146, r154, r156-r159, r161, r162, r164-r169, r171-r176, r178-r180 |
 
 ---
 
@@ -163,17 +163,22 @@ THREE.sRGBEncoding
 THREE.SRGBColorSpace
 ```
 
-### 4. `physicallyCorrectLights` → `useLegacyLights` → removido (r150/r155/r160+)
+### 4. `physicallyCorrectLights` → `useLegacyLights` → removido (r150/r155/r165)
 
 ```typescript
 // ANTES (src/floor3d-card.ts:1314, 1322)
 //this._renderer.physicallyCorrectLights = true;  // comentado
 this._renderer.physicallyCorrectLights = false;
 
-// DEPOIS (r183 — propriedade removida, luzes fisicamente corretas sao o default)
-// Remover a linha. Se precisar do comportamento legado:
-// this._renderer.useLegacyLights = true;  // deprecated em r155, removido em r160+
-// Na r183 nao existe mais — o comportamento e sempre fisicamente correto.
+// CAMINHO DE MIGRACAO:
+//   r150: physicallyCorrectLights=true → useLegacyLights=false (logica invertida)
+//   r155: useLegacyLights default mudou para false (deprecated)
+//   r165: useLegacyLights REMOVIDO — luzes fisicamente corretas sao o unico modo
+//
+// DEPOIS (r183 — propriedade nao existe mais)
+// Simplesmente remover ambas as linhas (1314 e 1322).
+// O comportamento fisicamente correto e agora o unico disponivel.
+// IMPORTANTE: luzes podem parecer mais fracas — ajustar intensidade se necessario.
 ```
 
 ### 5. `PCFSoftShadowMap` → `PCFShadowMap` (r182 deprecated)
