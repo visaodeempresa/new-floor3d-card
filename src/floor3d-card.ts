@@ -1255,11 +1255,11 @@ export class Floor3dCard extends LitElement {
 
     if (this._hass.states[this._config.globalLightPower]) {
       if (!Number.isNaN(this._hass.states[this._config.globalLightPower].state)) {
-        this._torch.intensity = Number(this._hass.states[this._config.globalLightPower].state);
+        this._torch.intensity = Number(this._hass.states[this._config.globalLightPower].state) * Math.PI;
       }
     } else {
       if (this._config.globalLightPower) {
-        this._torch.intensity = Number(this._config.globalLightPower);
+        this._torch.intensity = Number(this._config.globalLightPower) * Math.PI;
       }
     }
   }
@@ -1269,11 +1269,11 @@ export class Floor3dCard extends LitElement {
 
     if (this._hass.states[this._config.globalLightPower]) {
       if (!Number.isNaN(this._hass.states[this._config.globalLightPower].state)) {
-        intensity = Number(this._hass.states[this._config.globalLightPower].state);
+        intensity = Number(this._hass.states[this._config.globalLightPower].state) * Math.PI;
       }
     } else {
       if (this._config.globalLightPower) {
-        intensity = Number(this._config.globalLightPower);
+        intensity = Number(this._config.globalLightPower) * Math.PI;
       }
     }
 
@@ -1324,9 +1324,7 @@ export class Floor3dCard extends LitElement {
       this._scene.background = new THREE.Color('#aaaaaa');
     }
 
-    if (this._config.sky && this._config.sky == 'yes') {
-      this._renderer.outputColorSpace = THREE.SRGBColorSpace;
-    }
+    this._renderer.outputColorSpace = THREE.SRGBColorSpace;
     this._renderer.toneMapping = THREE.LinearToneMapping;
     //this._renderer.toneMapping = THREE.ACESFilmicToneMapping;
     this._renderer.toneMappingExposure = 0.6;
