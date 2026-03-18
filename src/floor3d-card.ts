@@ -1162,7 +1162,7 @@ export class Floor3dCard extends LitElement {
 
     console.log('Init Sun');
 
-    this._sun = new THREE.DirectionalLight(0xffffff, 2.0);
+    this._sun = new THREE.DirectionalLight(0xffffff, 2.0 * Math.PI);
     const sun = new THREE.Vector3();
     this._scene.add(this._sun);
 
@@ -1232,7 +1232,7 @@ export class Floor3dCard extends LitElement {
   }
 
   private _initTorch(): void {
-    this._torch = new THREE.DirectionalLight(0xffffff, 0.2);
+    this._torch = new THREE.DirectionalLight(0xffffff, 0.2 * Math.PI);
     this._torchTarget = new THREE.Object3D();
     this._torchTarget.name = 'Torch Target';
     this._torch.target = this._torchTarget;
@@ -1248,11 +1248,11 @@ export class Floor3dCard extends LitElement {
 
     if (this._hass.states[this._config.globalLightPower]) {
       if (!Number.isNaN(this._hass.states[this._config.globalLightPower].state)) {
-        this._torch.intensity = Number(this._hass.states[this._config.globalLightPower].state);
+        this._torch.intensity = Number(this._hass.states[this._config.globalLightPower].state) * Math.PI;
       }
     } else {
       if (this._config.globalLightPower) {
-        this._torch.intensity = Number(this._config.globalLightPower);
+        this._torch.intensity = Number(this._config.globalLightPower) * Math.PI;
       }
     }
   }
@@ -1271,12 +1271,12 @@ export class Floor3dCard extends LitElement {
     }
 
     if (this._config.sky == 'yes') {
-      this._ambient_light = new THREE.HemisphereLight(0xffffff, 0x000000, 0.2);
+      this._ambient_light = new THREE.HemisphereLight(0xffffff, 0x000000, 0.2 * Math.PI);
       this._ambient_light.groundColor.setHSL(0.095, 1, 0.75);
-      this._ambient_light.intensity = intensity;
+      this._ambient_light.intensity = intensity * Math.PI;
     } else {
-      this._ambient_light = new THREE.AmbientLight(0xffffff, 0.2);
-      this._ambient_light.intensity = intensity;
+      this._ambient_light = new THREE.AmbientLight(0xffffff, 0.2 * Math.PI);
+      this._ambient_light.intensity = intensity * Math.PI;
     }
 
     this._scene.add(this._ambient_light);
