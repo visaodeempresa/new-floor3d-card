@@ -92,10 +92,10 @@ usadas no projeto. A lista completa foi extraida de `src/floor3d-card.ts`:
 | 29 | **r159** | Jan 2024 | `BatchedMesh.applyGeometry()` → `addGeometry()`. `BufferAttribute.updateRange` → `updateRanges` (suporta multiplos ranges). Removido suporte WebGL 1 de `SkinnedMesh`. | ✅ Nenhum |
 | 30 | **r160** | Feb 2024 | **Removidos build files `build/three.js` e `build/three.min.js`** — projeto usa bundler (Rollup), sem impacto. `HBAOPass` → `GTAOPass`. `Triangle.getBarycoord()` retorna `null` para triangulos degenerados. | 💚 Minimo |
 | 31 | **r161** | Mar 2024 | Removido `WebGLMultipleRenderTargets`. `GroundProjectedSkybox` substitui `GroundProjectedEnv`. Equirect environment maps auto-convertidos para cube. | ✅ Nenhum |
-| 32 | **r162** | Apr 2024 | `HTMLImageElement` textures usam `naturalWidth`/`naturalHeight`. `InteractiveGroup` API alterada. | ✅ Nenhum |
+| 32 | **r162** | Apr 2024 | **CRITICO: constantes `sRGBEncoding`/`LinearEncoding` e propriedade `outputEncoding` REMOVIDAS** (deprecated em r152). Usar `SRGBColorSpace`/`LinearSRGBColorSpace` e `outputColorSpace`. `HTMLImageElement` textures usam `naturalWidth`/`naturalHeight`. Removido `WebGLMultipleRenderTargets`. | 🔴 Alto |
 | 33 | **r163** | May 2024 | **WebGL 1 REMOVIDO** — `WebGLRenderer` agora requer WebGL 2. `stencil` default agora `false`. `TextGeometry` `height` → `depth`. **`Scene.environmentIntensity`** nova propriedade. `envMapIntensity` agora per-material. | ⚠️ Baixo |
 | 34 | **r164** | Jun 2024 | `LWOLoader` conversao de coordenadas. Shader chunk `lightmap_fragment` removido. `WebGLNodeBuilder` removido. | ✅ Nenhum |
-| 35 | **r165** | Jul 2024 | `copyTextureToTexture()` e `copyFramebufferToTexture()` signatures alteradas (nao usados). | ✅ Nenhum |
+| 35 | **r165** | Jul 2024 | **`useLegacyLights` REMOVIDO** — luzes fisicamente corretas sao o unico modo. `copyTextureToTexture()` e `copyFramebufferToTexture()` signatures alteradas (nao usados). | 🔴 Alto |
 | 36 | **r166** | Aug 2024 | `BatchedMesh` requer `addInstance()`. Melhorias internas. | ✅ Nenhum |
 | 37 | **r167** | Sep 2024 | WebGPU/TSL imports reestruturados. Removido `HDRJPGLoader`. | ✅ Nenhum |
 | 38 | **r168** | Oct 2024 | TSL chaining removido. `DragControls` API alterada. Removidos `PointerLockControls.getObject()`, `LogLuvLoader`. Renomeado `viewportTopLeft` → `viewportUV`. | ✅ Nenhum |
@@ -121,11 +121,11 @@ usadas no projeto. A lista completa foi extraida de `src/floor3d-card.ts`:
 
 | Nivel | Qtd | Versoes |
 |---|---|---|
-| 🔴 Alto | **4** | r147, r150, r152, r183 |
+| 🔴 Alto | **6** | r147, r150, r152, r162, r165, r183 |
 | 🟠 Medio | **5** | r137, r144, r145, r155, r182 |
 | ⚠️ Baixo | **10** | r132, r133, r134, r138, r149, r151, r153, r163, r170, r177 |
 | 💚 Minimo | **6** | r135, r136, r140, r148, r160, r181 |
-| ✅ Nenhum | **28** | r131, r139, r141, r142, r143, r146, r154, r156-r159, r161, r162, r164-r169, r171-r176, r178-r180 |
+| ✅ Nenhum | **26** | r131, r139, r141, r142, r143, r146, r154, r156-r159, r161, r164, r166-r169, r171-r176, r178-r180 |
 
 ---
 
