@@ -1,4 +1,4 @@
-# floor3d-card (aka Your Home Digital Twin)
+# new-floor3d-card (aka Your Home Digital Twin)
 
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg?style=for-the-badge)](https://github.com/custom-components/hacs)
 
@@ -25,14 +25,14 @@ Javascript Module for the Home Assistant visualization Card for 3D Models with b
 
 ## Installation
 
-The card is now accepted in the default repositories of HACS just search for floor3d in the HACS frontend section and install.
+Install via HACS by adding `https://github.com/visaodeempresa/new-floor3d-card` as a custom repository (Frontend type), then search for **new-floor3d-card** and install.
 
-You can also download the compiled floor3d-card.js file from the latest release here (https://github.com/adizanni/floor3d-card/releases) and upload it to your www Home Assistant folder
+You can also download the compiled `new-floor3d-card.js` file from the latest release here (https://github.com/visaodeempresa/new-floor3d-card/releases) and upload it to your www Home Assistant folder
 
 It's **required** to load this card as `module`.
 
 ```yaml
-- url: /local/pathtofile/floor3d-card.js
+- url: /local/pathtofile/new-floor3d-card.js
   type: module
 ```
 
@@ -74,7 +74,7 @@ Assuming your model is called home.obj. You wait for some time (from few seconds
 
 | Name             | Type   | Default      | Description                                                                                                                                                                |
 | ---------------- | ------ | ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| type             | string | **Required** | `custom:floor3d-card`.                                                                                                                                                     |
+| type             | string | **Required** | `custom:new-floor3d-card`.                                                                                                                                                 |
 | name             | string | Floor 3d     | the name of the card.                                                                                                                                                      |
 | entities         | array  | none         | list of enitities to bind to 3D model objects.                                                                                                                             |
 | object_groups    | array  | none         | list of object groups to apply grouped entity bindings.                                                                                                                    |
@@ -504,7 +504,7 @@ To give it a try please, load the example folder files in a folder within /confi
 Create a new Panel View add Floor3d-card and cut and paste the following config:
 
 ```yaml
-type: 'custom:floor3d-card'
+type: 'custom:new-floor3d-card'
 entities:
   - entity: <your light entity id>
     type3d: light
