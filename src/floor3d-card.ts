@@ -17,11 +17,11 @@ import { localize } from './localize/localize';
 //import three.js libraries for 3D rendering
 import * as TWEEN from '@tweenjs/tween.js';
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
-import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader';
-import { GLTFLoader, GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
-import { Sky } from 'three/examples/jsm/objects/Sky';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
+import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader.js';
+import { GLTFLoader, GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { Sky } from 'three/examples/jsm/objects/Sky.js';
 import { Object3D } from 'three';
 import '../elements/button';
 
@@ -110,7 +110,7 @@ export class Floor3dCard extends LitElement {
   private _longpressTimeout: any;
   private _mouseupEventListener: EventListener;
   private _currentIntersections: THREE.Intersection[];
-  private _changeListener: EventListener;
+  private _changeListener: () => void;
   private _cardObscured: boolean;
   private _card?: HTMLElement;
   private _content?: HTMLElement;
@@ -1340,8 +1340,8 @@ export class Floor3dCard extends LitElement {
             this._config.mtlfile,
             this._onLoaded3DMaterials.bind(this),
             this._onLoadMaterialProgress.bind(this),
-            function (error: ErrorEvent): void {
-              throw new Error(error.error);
+            function (error: unknown): void {
+              throw new Error(String(error));
             },
           );
         } else {
@@ -1350,8 +1350,8 @@ export class Floor3dCard extends LitElement {
             path + this._config.objfile,
             this._onLoaded3DModel.bind(this),
             this._onLoadObjectProgress.bind(this),
-            function (error: ErrorEvent): void {
-              throw new Error(error.error);
+            function (error: unknown): void {
+              throw new Error(String(error));
             },
           );
         }
@@ -1363,8 +1363,8 @@ export class Floor3dCard extends LitElement {
           this._config.objfile,
           this._onLoadedGLTF3DModel.bind(this),
           this._onloadedGLTF3DProgress.bind(this),
-          function (error: ErrorEvent): void {
-            throw new Error(error.error);
+          function (error: unknown): void {
+            throw new Error(String(error));
           },
         );
         this._modeltype = ModelSource.GLB;
@@ -2024,8 +2024,8 @@ export class Floor3dCard extends LitElement {
       path + this._config.objfile,
       this._onLoaded3DModel.bind(this),
       this._onLoadObjectProgress.bind(this),
-      function (error: ErrorEvent): void {
-        throw new Error(error.error);
+      function (error: unknown): void {
+        throw new Error(String(error));
       },
     );
     console.log('Material loaded end');
@@ -2295,7 +2295,7 @@ export class Floor3dCard extends LitElement {
                     const box: THREE.Box3 = new THREE.Box3();
                     box.setFromObject(_foundobject);
 
-                    let light = new THREE.Light();
+                    let light: THREE.SpotLight | THREE.PointLight;
 
                     let x: number, y: number, z: number;
 

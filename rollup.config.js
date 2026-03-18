@@ -22,7 +22,7 @@ const serveopts = {
 };
 
 const plugins = [
-  resolve({ browser: true }),
+  resolve({ browser: true, extensions: ['.js', '.mjs', '.ts'] }),
   commonjs(),
   typescript(),
   json(),
