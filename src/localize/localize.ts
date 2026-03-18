@@ -1,3 +1,8 @@
+/**
+ * @fork-contributor Maycon Willian Oliveira (@visaodeempresa)
+ * @github https://github.com/visaodeempresa
+ * @contribution Localization compatibility review for Lit 3 and HA modern frontend.
+ */
 import * as en from './languages/en.json';
 import * as nb from './languages/nb.json';
 

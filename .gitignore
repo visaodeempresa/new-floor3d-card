@@ -2,4 +2,10 @@
 /.rpt2_cache/
 package-lock.json
 /dist
-.claude/settings.local.json
+.claude/
+.vscode/
+.devcontainer/
+.idea/
+*.log
+RELEASE_NOTES_*.md
+docs/FASE3_THREEJS_MIGRATION.md
