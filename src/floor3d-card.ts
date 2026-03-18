@@ -2838,9 +2838,9 @@ export class Floor3dCard extends LitElement {
 
       if (this._states[i] == 'on') {
         if (this._brightness[i] != -1) {
-          light.intensity = (max / (4 * Math.PI)) * (this._brightness[i] / 255);
+          light.intensity = (max / 4) * (this._brightness[i] / 255);
         } else {
-          light.intensity = max / (4 * Math.PI);
+          light.intensity = max / 4;
         }
         if (!this._color[i]) {
           if (entity.light.color) {
