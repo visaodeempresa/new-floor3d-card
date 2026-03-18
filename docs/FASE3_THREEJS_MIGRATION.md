@@ -62,7 +62,7 @@ usadas no projeto. A lista completa foi extraida de `src/floor3d-card.ts`:
 | # | Versao | Data | Alteracoes Relevantes | Risco |
 |---|---|---|---|---|
 | 1 | **r131** | Jul 2021 | Removido `morphTargets`/`morphNormals` properties (nao usados). Renomeado `attenuationColor` → `attenuationTint` (nao usado). Melhorias em WebXR. | ✅ Nenhum |
-| 2 | **r132** | Aug 2021 | Removido `BufferGeometry.computeFaceNormals()` (nao usado). `MeshPhysicalMaterial.sheen` → `sheenTint`. `KTX2Loader` requer novo transcoder. Shader chunks alterados para custom shaders. | ✅ Nenhum |
+| 2 | **r132** | Aug 2021 | **Removido fator PI dos shaders — cenas podem parecer mais escuras.** Removido `BufferGeometry.computeFaceNormals()`. `MeshPhysicalMaterial.sheen` → `sheenTint`. Alpha map/test suporte adicionado a shadow maps. | ⚠️ Baixo |
 | 3 | **r133** | Sep 2021 | **`Raycaster.intersectObject()` — parametro `recursive` agora `true` por default.** `TextGeometry`, `FontLoader`, `Font` movidos para examples/jsm. `ParametricGeometry` movido para examples. `BufferGeometryUtils` agora usa `import *`. | ⚠️ Baixo |
 | 4 | **r134** | Oct 2021 | **`FileLoader` agora usa `fetch` ao inves de `XMLHttpRequest`** — pode afetar loaders (OBJ/MTL/GLTF) em contextos sem rede. Removido `DeviceOrientationControls`, `ImmediateRenderObject`. `OrbitControls` nao permite zoom durante rotacao. | ⚠️ Baixo |
 | 5 | **r135** | Dec 2021 | **Textura: dimensoes, formato e tipo imutaveis apos primeiro uso.** `MeshStandardMaterial` pode parecer visualmente diferente (menos brilhante). `GLTFExporter.parse()` signature alterada. Removido `LogLuvEncoding`. | 💚 Minimo |
@@ -80,7 +80,7 @@ usadas no projeto. A lista completa foi extraida de `src/floor3d-card.ts`:
 | 17 | **r147** | Jan 2023 | **`PointLight`/`SpotLight` decay default agora `2`** (fisicamente correto). Luzes do projeto podem mudar de intensidade/alcance. Removido `KHR_materials_pbrSpecularGlossiness` do `GLTFLoader`. | 🔴 Alto |
 | 18 | **r148** | Feb 2023 | **`examples/js` removido completamente** — apenas `examples/jsm` (ES modules). O projeto ja usa `jsm`, sem impacto. Defaults de geometrias alterados (circles, cylinders, cones). `GLTFLoader` garante ordem de nodes conforme glTF. | 💚 Minimo |
 | 19 | **r149** | Mar 2023 | **Renomeados:** `Euler.DefaultOrder` → `Euler.DEFAULT_ORDER`, `Object3D.DefaultUp` → `Object3D.DEFAULT_UP`, `Object3D.DefaultMatrixAutoUpdate` → `Object3D.DEFAULT_MATRIX_AUTO_UPDATE`. Removido `THREE.TwoPassDoubleSide`. | ⚠️ Baixo |
-| 20 | **r150** | Apr 2023 | **`physicallyCorrectLights = true` → `useLegacyLights = false`**. Projeto usa `physicallyCorrectLights = false` na linha 1322 — precisa migrar para `useLegacyLights = true`. `ColorManagement.legacyMode=false` → `ColorManagement.enabled=true`. Removido `BasisTextureLoader`. | 🔴 Alto |
+| 20 | **r150** | Apr 2023 | **`physicallyCorrectLights = true` → `useLegacyLights = false`**. Projeto usa `physicallyCorrectLights = false` na linha 1322 — precisa migrar para `useLegacyLights = true`. `ColorManagement.legacyMode=false` → `ColorManagement.enabled=true`. **`MeshStandardMaterial.roughness` default `0.5` → `1`** — materiais standard sem roughness explicito ficam mais foscos. Removido `BasisTextureLoader`. | 🔴 Alto |
 | 21 | **r151** | May 2023 | Renomeados: `mergeBufferAttributes()` → `mergeAttributes()`, `mergeBufferGeometries()` → `mergeGeometries()`, `GroundProjectedEnv` → `GroundProjectedSkybox`. **`aoMap`/`lightMap` nao usam mais `uv2`** (use `material.lightMap.channel`). `MapControls` agora em modulo separado. | ⚠️ Baixo |
 | 22 | **r152** | Jun 2023 | **CRITICO:** **`Texture.encoding` → `Texture.colorSpace`**. **`WebGLRenderer.outputEncoding` → `outputColorSpace`**. **`THREE.sRGBEncoding` → `THREE.SRGBColorSpace`**. **`THREE.LinearEncoding` → `THREE.LinearSRGBColorSpace`**. `ColorManagement.enabled` agora `true` por default. UV renaming: `uv2`/`uv3` → `uv1`/`uv2`. | 🔴 Alto |
 | 23 | **r153** | Jul 2023 | **WebGL 1 DEPRECATED** (removido em r163). Default render target texture type → `HalfFloatType`. `CubeTextureLoader` carrega em sRGB por default. Removidos `AdaptiveToneMappingPass`, `ColladaExporter`. | ⚠️ Baixo |
@@ -209,13 +209,24 @@ light.decay = 2;  // agora default — luzes podem parecer mais fracas
 // Pode ser necessario aumentar light.intensity para compensar
 ```
 
-### 8. `MeshLambertMaterial` — per-fragment shading (r144)
+### 8. Fator PI removido dos shaders (r132)
+
+A partir de r132, o Three.js removeu o fator PI "artist-friendly" dos calculos de
+iluminacao. Cenas podem parecer **mais escuras**. Pode ser necessario aumentar a
+intensidade das luzes (DirectionalLight, HemisphereLight, AmbientLight) para compensar.
+
+### 9. `MeshStandardMaterial.roughness` default `0.5` → `1` (r150)
+
+Materiais `MeshStandardMaterial` sem `roughness` explicito ficam mais foscos (opacos).
+Se o modelo 3D depende do default, definir `roughness = 0.5` explicitamente.
+
+### 10. `MeshLambertMaterial` — per-fragment shading (r144)
 
 Nao requer mudanca de codigo, mas o visual dos materiais Lambert muda.
 Antes: Gouraud shading (per-vertex). Depois: Phong-like (per-fragment).
 Testar visualmente.
 
-### 9. `Sky` — correcao gamma removida (r183)
+### 11. `Sky` — correcao gamma removida (r183)
 
 O `Sky` shader nao aplica mais correcao gamma legada. A aparencia do
 ceu pode mudar. Testar visualmente e ajustar `turbidity`, `rayleigh`,
