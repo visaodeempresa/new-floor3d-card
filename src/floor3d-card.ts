@@ -94,7 +94,7 @@ export class Floor3dCard extends LitElement {
   private _rotation_state: number[];
   private _rotation_index: number[];
   private _animated_transitions: any[];
-  private _clock?: THREE.Clock;
+  private _clock?: THREE.Timer;
   private _slidingdoor: THREE.Group[];
   private _overlay_entity: string;
   private _overlay_state: string;
@@ -187,8 +187,8 @@ export class Floor3dCard extends LitElement {
       }, 250);
 
       if (this._to_animate) {
-        this._clock = new THREE.Clock();
-        this._renderer.setAnimationLoop(() => this._animationLoop());
+        this._clock = new THREE.Timer();
+        this._renderer.setAnimationLoop((timestamp) => this._animationLoop(timestamp));
       }
 
       if (this._ispanel() || this._issidebar()) {
@@ -770,8 +770,8 @@ export class Floor3dCard extends LitElement {
 
           if (this._to_animate) {
             console.log('Canvas visible again; starting animation');
-            this._clock = new THREE.Clock();
-            this._renderer.setAnimationLoop(() => this._animationLoop());
+            this._clock = new THREE.Timer();
+            this._renderer.setAnimationLoop((timestamp) => this._animationLoop(timestamp));
           }
         }
       }
@@ -1318,7 +1318,6 @@ export class Floor3dCard extends LitElement {
     //this._renderer.toneMapping = THREE.ACESFilmicToneMapping;
     this._renderer.toneMappingExposure = 0.6;
     this._renderer.localClippingEnabled = true;
-    this._renderer.useLegacyLights = true;
 
     if (this._config.path && this._config.path != '') {
       let path = this._config.path;
@@ -1426,7 +1425,7 @@ export class Floor3dCard extends LitElement {
     if (this._config.shadow && this._config.shadow == 'yes') {
       console.log('Shadow On');
       this._renderer.shadowMap.enabled = true;
-      this._renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      this._renderer.shadowMap.type = THREE.PCFShadowMap;
       this._renderer.shadowMap.autoUpdate = false;
     } else {
       console.log('Shadow Off');
@@ -3192,8 +3191,8 @@ export class Floor3dCard extends LitElement {
     if (this._needsAnimationLoop()) {
       if (this._to_animate) return;
       this._to_animate = true;
-      this._clock = new THREE.Clock();
-      this._renderer.setAnimationLoop(() => this._animationLoop());
+      this._clock = new THREE.Timer();
+      this._renderer.setAnimationLoop((timestamp) => this._animationLoop(timestamp));
     } else {
       this._to_animate = false;
       this._clock = null;
@@ -3201,7 +3200,8 @@ export class Floor3dCard extends LitElement {
     }
   }
 
-  private _animationLoop() {
+  private _animationLoop(timestamp: number) {
+    this._clock.update(timestamp);
     const clockDelta = this._clock.getDelta();
     let rotateBy = clockDelta * Math.PI * 2;
 
