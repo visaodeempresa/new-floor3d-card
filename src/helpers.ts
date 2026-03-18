@@ -1,6 +1,11 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+/**
+ * @fork-contributor Maycon Willian Oliveira (@visaodeempresa)
+ * @github https://github.com/visaodeempresa
+ * @contribution Three.js r183 API compatibility updates and helper function validation.
+ */
 import { PropertyValues } from 'lit';
 import { HomeAssistant, LovelaceConfig } from 'custom-card-helpers';
 import { Floor3dCardConfig } from './types';

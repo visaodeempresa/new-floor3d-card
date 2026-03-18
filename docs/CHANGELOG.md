@@ -6,11 +6,27 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) — Versioning:
 
 ---
 
+## [4.0.6] — 2026-03-18 — Three.js r183 + Lit 3 — Production Release
+
+### Summary
+Production-ready release following complete Three.js r130 → r183 migration and Lit 2 → 3 upgrade.
+Validated with real 3D floor plans running in Home Assistant.
+Contributed by **[Maycon Willian Oliveira (@visaodeempresa)](https://github.com/visaodeempresa)**.
+
+### Added
+- Author attribution comments in all source files (`src/*.ts`, `rollup.config.js`)
+- `docs/screenshots/` — real-world screenshot of the card running in Home Assistant
+- Fork notice and contributor section in `README.md`
+
+### Changed
+- `CARD_VERSION` bumped to `4.0.6`
+- `README.md` updated: fork notice at top, screenshot preview, Contributors & Credits section
+
+---
+
 ## [Unreleased]
 
 ### Planned
-- Upgrade Lit from v2 to v3 (fixes HA 2025.11+ compatibility — Issue #194)
-- Upgrade Three.js from r130 to r183
 - Upgrade tween.js from v18 to v25
 - Fix door slide direction bug (Issue #196)
 - Fix TypeError on Android Chrome (Issue #193)
