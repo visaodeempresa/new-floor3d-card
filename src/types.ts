@@ -1,4 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+/**
+ * @fork-contributor Maycon Willian Oliveira (@visaodeempresa)
+ * @github https://github.com/visaodeempresa
+ * @contribution Type definitions review and alignment with Three.js r183 and Lit 3.
+ */
 import { ActionConfig, LovelaceCard, LovelaceCardEditor } from 'custom-card-helpers';
 
 declare global {

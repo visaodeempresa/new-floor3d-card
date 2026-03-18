@@ -4,6 +4,19 @@
 
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://buymeacoffee.com/AndyHA)
 
+---
+
+> **This is a Fork** of [adizanni/floor3d-card](https://github.com/adizanni/floor3d-card), maintained by
+> [Maycon Willian Oliveira (@visaodeempresa)](https://github.com/visaodeempresa).
+> This fork includes significant modernization work: Three.js upgrade from r130 → r183, Lit 2 → 3 migration,
+> and real-world validation using actual 3D floor plans running in Home Assistant.
+
+---
+
+![Floor3D Card running in Home Assistant with a real 3D floor plan](docs/screenshots/floor3d-ha-preview.png)
+
+---
+
 Javascript Module for the Home Assistant visualization Card for 3D Models with bindings to entity states.
 
 | New Tutorial [![Alt text](https://img.youtube.com/vi/ArBy7uqSJkY/0.jpg)](https://www.youtube.com/watch?v=ArBy7uqSJkY) | Your First Card [![Alt text](https://img.youtube.com/vi/4qrDpDnPK6I/0.jpg)](https://youtu.be/4qrDpDnPK6I)  |
@@ -71,7 +84,7 @@ Assuming your model is called home.obj. You wait for some time (from few seconds
 | mtlfile          | string | **Required** | material file name (.mtl) Waterfront format. Only relevant when objefile has obj extension (no glb)                                                                                                                               |
 | backgroundColor  | string | '#aaaaaa'    | canvas background color: #RGB notation (ex #aaaaaa), color name (ex. 'white') or 'transparent' for a transparent background                                       |
 | header  | string | 'yes'    | if the header will be displayed or not                                                                                                                                                   |
-| editModeNotifications | string | 'yes'    | 'yes' to use the double click in edit mode to pop up the object ids or the camera position, 'no' to stop displaying popups                                            | 
+| editModeNotifications | string | 'yes'    | 'yes' to use the double click in edit mode to pop up the object ids or the camera position, 'no' to stop displaying popups                                            |
 | selectionMode | string | 'no'    | 'yes' to activate the selection mode and select group of objects, the list of selected objects will appear in the console                                            |
 | globalLightPower | float  | 0.5          | intensity of the light illuminating the full scene it can also the name of a numeric sensor                                                                                |
 | shadow           | string | no           | 'yes' if lights cast shadow on object. This is realistic but impacts performances. By default wall, floors and objects with "door" in the name, receives and cast shadows  |
@@ -524,8 +537,25 @@ For one who has a computer with 2 (or more) gpus, like in laptops with a second 
 That makes the rendering slow and the experience frustrating.
 Steps to dramatically improve the rendering.
 
-- A. **Firefox** In NVIDIA Control Panel 3D Settings->Manage 3D Settings->Program Settings Tab->1. Select a program to customise->Mozilla Firefox → 2. Select The preferred graphics processor->High performance NVIDIA → 3. OpenGL rendering GPU → NVIDIA; In Firefox address bar, type about:config. Search ‘webgl.disable-angle’ and set it to true (that instructs Firefox to use OpenGL).
+- A. **Firefox** In NVIDIA Control Panel 3D Settings->Manage 3D Settings->Program Settings Tab->1. Select a program to customise->Mozilla Firefox → 2. Select The preferred graphics processor->High performance NVIDIA → 3. OpenGL rendering GPU → NVIDIA; In Firefox address bar, type about:config. Search 'webgl.disable-angle' and set it to true (that instructs Firefox to use OpenGL).
 
-- B. **Chrome** In NVIDIA Control Panel 3D Settings->Manage 3D Settings->Program Settings Tab->1. Select a program to customise->Google Chrome-> 2. Select The preferred graphics processor->High performance NVIDIA → 3. OpenGL rendering GPU → NVIDIA; In Chrome address bar, type chrome://flags/#use-angle. Select OpenGL. Restart Chrome; In Chrome address bar, type chrome://gpu. Search for ‘GL_RENDERER’ and check if it say 'ANGLE (NVIDIA … OpenGL … ); I still experiment with ‘chrome://flags/#enable-drdc’.
+- B. **Chrome** In NVIDIA Control Panel 3D Settings->Manage 3D Settings->Program Settings Tab->1. Select a program to customise->Google Chrome-> 2. Select The preferred graphics processor->High performance NVIDIA → 3. OpenGL rendering GPU → NVIDIA; In Chrome address bar, type chrome://flags/#use-angle. Select OpenGL. Restart Chrome; In Chrome address bar, type chrome://gpu. Search for 'GL_RENDERER' and check if it say 'ANGLE (NVIDIA … OpenGL … ); I still experiment with 'chrome://flags/#enable-drdc'.
 
-- C. **Edge** In NVIDIA Control Panel 3D Settings->Manage 3D Settings->Program Settings Tab->1. Select a program to customise->Edge-> 2. Select The preferred graphics processor->High performance NVIDIA → 3. OpenGL rendering GPU → NVIDIA; In Chrome address bar, type edge://flags/#use-angle. Select OpenGL. Restart Edge; I couldn’t figure out how to do it in Edge. It should be like chrome, because Edge is chromium. But for some reason it doesn’t work. Checking edge://gpu GL_RENDERER shows Direct3D11 instead of OpenGL.
+- C. **Edge** In NVIDIA Control Panel 3D Settings->Manage 3D Settings->Program Settings Tab->1. Select a program to customise->Edge-> 2. Select The preferred graphics processor->High performance NVIDIA → 3. OpenGL rendering GPU → NVIDIA; In Chrome address bar, type edge://flags/#use-angle. Select OpenGL. Restart Edge; I couldn't figure out how to do it in Edge. It should be like chrome, because Edge is chromium. But for some reason it doesn't work. Checking edge://gpu GL_RENDERER shows Direct3D11 instead of OpenGL.
+
+---
+
+## Contributors & Credits
+
+Original project created and maintained by **[Andrea Iannucci (adizanni)](https://github.com/adizanni)**.
+
+### Fork Contributions — v4.x
+
+**[Maycon Willian Oliveira (@visaodeempresa)](https://github.com/visaodeempresa)**
+- Three.js upgrade from r130 → r183 (full API migration across 53 versions)
+- Lit 2 → 3 migration and modern Web Components compatibility
+- HACS configuration updates for current Home Assistant ecosystem
+- Real-world validation and testing using actual 3D floor plans in Home Assistant
+
+> All original authorship, documentation, and intellectual contributions from adizanni and the community
+> are preserved and respected in this fork.

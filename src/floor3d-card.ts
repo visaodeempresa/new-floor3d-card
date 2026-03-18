@@ -1,4 +1,10 @@
 /* eslint-disable @typescript-eslint/ban-types */
+/**
+ * @fork-contributor Maycon Willian Oliveira (@visaodeempresa)
+ * @github https://github.com/visaodeempresa
+ * @contribution Three.js r130 → r183 migration (geometry, light, encoding APIs),
+ *   Lit 2 → 3 upgrade, and real-world testing with 3D floor plans in Home Assistant.
+ */
 import { LitElement, html, TemplateResult, css, PropertyValues, CSSResultGroup, render } from 'lit';
 import { property, customElement, state } from 'lit/decorators.js';
 import {
