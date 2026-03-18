@@ -1,3 +1,9 @@
+/**
+ * @fork-contributor Maycon Willian Oliveira (@visaodeempresa)
+ * @github https://github.com/visaodeempresa
+ * @contribution Build pipeline updates: Three.js r183 bundle resolution,
+ *   Rollup externals alignment, and HACS distribution packaging.
+ */
 import { createRequire } from 'module';
 import typescript from 'rollup-plugin-typescript2';
 import commonjs from '@rollup/plugin-commonjs';
@@ -22,7 +28,7 @@ const serveopts = {
 };
 
 const plugins = [
-  resolve({ browser: true }),
+  resolve({ browser: true, extensions: ['.js', '.mjs', '.ts'] }),
   commonjs(),
   typescript(),
   json(),
