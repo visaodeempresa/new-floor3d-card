@@ -61,7 +61,7 @@ usadas no projeto. A lista completa foi extraida de `src/floor3d-card.ts`:
 
 | # | Versao | Data | Alteracoes Relevantes | Risco |
 |---|---|---|---|---|
-| 1 | **r131** | Jul 2021 | Removido `morphTargets`/`morphNormals` properties (nao usados). Renomeado `attenuationColor` → `attenuationTint` (nao usado). Melhorias em WebXR. | ✅ Nenhum |
+| 1 | **r131** | 2021-07-29 | Removido `morphTargets`/`morphNormals` properties (nao usados). Renomeado `attenuationColor` → `attenuationTint` (nao usado). Melhorias em WebXR. | ✅ Nenhum |
 | 2 | **r132** | Aug 2021 | **Removido fator PI dos shaders — cenas podem parecer mais escuras.** Removido `BufferGeometry.computeFaceNormals()`. `MeshPhysicalMaterial.sheen` → `sheenTint`. Alpha map/test suporte adicionado a shadow maps. | ⚠️ Baixo |
 | 3 | **r133** | Sep 2021 | **`Raycaster.intersectObject()` — parametro `recursive` agora `true` por default.** `TextGeometry`, `FontLoader`, `Font` movidos para examples/jsm. `ParametricGeometry` movido para examples. `BufferGeometryUtils` agora usa `import *`. | ⚠️ Baixo |
 | 4 | **r134** | Oct 2021 | **`FileLoader` agora usa `fetch` ao inves de `XMLHttpRequest`** — pode afetar loaders (OBJ/MTL/GLTF) em contextos sem rede. Removido `DeviceOrientationControls`, `ImmediateRenderObject`. `OrbitControls` nao permite zoom durante rotacao. | ⚠️ Baixo |
