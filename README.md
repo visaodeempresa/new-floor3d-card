@@ -1,10 +1,28 @@
 # floor3d-card (aka Your Home Digital Twin)
 
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg?style=for-the-badge)](https://github.com/custom-components/hacs)
+[![Version](https://img.shields.io/badge/version-v4.1.2--r132-blue.svg?style=for-the-badge)](https://github.com/visaodeempresa/new-floor3d-card/releases/tag/v4.1.2-r132)
 
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://buymeacoffee.com/AndyHA)
 
 Javascript Module for the Home Assistant visualization Card for 3D Models with bindings to entity states.
+
+---
+
+## Community Contribution — Three.js r132 Compatibility Update
+
+> **"The outside looks the same, but the engine under the hood keeps purring."**
+
+This fork received a community-driven maintenance update to keep `floor3d-card` alive and healthy for the long run. Here's what happened behind the scenes:
+
+- **Three.js upgraded from r131 → r132** — the 3D engine that powers the entire card was bumped to the latest stable revision, ensuring compatibility with modern browsers and future HA updates.
+- **Zero breaking changes** — a thorough analysis of the r132 release notes confirmed that none of the breaking changes (`sheenTint` rename, `computeFaceNormals` removal, etc.) affected this project. Not a single line of source code needed to change.
+- **Build pipeline modernised** — dependencies updated, `yarn.lock` refreshed, build validated and the compiled `new-floor3d-card.js` (965 KB) regenerated and published as a GitHub Release asset.
+- **HACS integration maintained** — the card continues to appear and update correctly in HACS, tested end-to-end in a real Home Assistant environment.
+
+All of this was done with the help of **Claude Code** (Anthropic's AI coding assistant) — a collaboration between a passionate Home Assistant enthusiast and an AI that apparently never sleeps and loves a good dependency upgrade. 🤖
+
+---
 
 | New Tutorial [![Alt text](https://img.youtube.com/vi/ArBy7uqSJkY/0.jpg)](https://www.youtube.com/watch?v=ArBy7uqSJkY) | Your First Card [![Alt text](https://img.youtube.com/vi/4qrDpDnPK6I/0.jpg)](https://youtu.be/4qrDpDnPK6I)  |
 | ------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
@@ -529,3 +547,19 @@ Steps to dramatically improve the rendering.
 - B. **Chrome** In NVIDIA Control Panel 3D Settings->Manage 3D Settings->Program Settings Tab->1. Select a program to customise->Google Chrome-> 2. Select The preferred graphics processor->High performance NVIDIA → 3. OpenGL rendering GPU → NVIDIA; In Chrome address bar, type chrome://flags/#use-angle. Select OpenGL. Restart Chrome; In Chrome address bar, type chrome://gpu. Search for ‘GL_RENDERER’ and check if it say 'ANGLE (NVIDIA … OpenGL … ); I still experiment with ‘chrome://flags/#enable-drdc’.
 
 - C. **Edge** In NVIDIA Control Panel 3D Settings->Manage 3D Settings->Program Settings Tab->1. Select a program to customise->Edge-> 2. Select The preferred graphics processor->High performance NVIDIA → 3. OpenGL rendering GPU → NVIDIA; In Chrome address bar, type edge://flags/#use-angle. Select OpenGL. Restart Edge; I couldn’t figure out how to do it in Edge. It should be like chrome, because Edge is chromium. But for some reason it doesn’t work. Checking edge://gpu GL_RENDERER shows Direct3D11 instead of OpenGL.
+
+---
+
+## Real World — A Home Assistant User’s 3D Floor Plan in the Wild
+
+Sometimes the best way to show that a component works is to show it actually working in someone’s home. This screenshot was taken straight from a real Home Assistant dashboard, running `floor3d-card` with a fully modelled apartment — lights, sensors, cameras and all.
+
+![Maycon’s Home — 3D Floor Plan in Home Assistant](https://raw.githubusercontent.com/mayconsoftware/mayconsoftware.github.io/refs/heads/main/assets/MAYCON-HOME.jpg)
+
+> This beautiful 3D floor plan belongs to **Maycon**, a Home Assistant enthusiast who used `floor3d-card` to visualise his entire apartment — complete with smart lights, a home office setup with dual monitors, a cosy living room, and even the bathroom illuminated in that unmistakable smart-home blue glow. Maycon contributed to the continuity of this component by running the Three.js r131 → r132 migration in his real environment, validating that everything still works end-to-end after the upgrade. His home became the test lab so yours doesn’t have to be. 🏠✨
+>
+> A huge thank you to Maycon for being a real-world contributor to this free, open-source 3D home visualisation tool. If you have a cool floor plan running `floor3d-card`, share it with the community — seeing it in action is the best documentation there is!
+
+---
+
+*v4.1.2-r132-02 — Three.js r132 compatibility · Community contribution by [@visaodeempresa](https://github.com/visaodeempresa)*
