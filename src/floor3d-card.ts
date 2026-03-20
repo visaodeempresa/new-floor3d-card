@@ -17,11 +17,11 @@ import { localize } from './localize/localize';
 //import three.js libraries for 3D rendering
 import * as TWEEN from '@tweenjs/tween.js';
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
-import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader';
-import { GLTFLoader, GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
-import { Sky } from 'three/examples/jsm/objects/Sky';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
+import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader.js';
+import { GLTFLoader, GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { Sky } from 'three/examples/jsm/objects/Sky.js';
 import { Object3D } from 'three';
 import '../elements/button';
 
