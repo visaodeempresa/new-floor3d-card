@@ -1,6 +1,6 @@
 {
   "name": "new-floor3d-card",
-  "version": "4.1.2-r134",
+  "version": "4.1.2-r135",
   "description": "Your HA Digital Twin aka new-floor3d-card",
   "keywords": [
     "home-assistant",
@@ -33,7 +33,7 @@
     "custom-card-helpers": "^1.7.2",
     "home-assistant-js-websocket": "^5.11.1",
     "lit": "^3.0.0",
-    "three": "^0.134.0",
+    "three": "^0.135.0",
     "three-spritetext": "^1.6.4"
   },
   "devDependencies": {
@@ -45,7 +45,7 @@
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-terser": "^0.4.4",
-    "@types/three": "^0.134.0",
+    "@types/three": "^0.135.0",
     "@typescript-eslint/eslint-plugin": "^4.28.2",
     "@typescript-eslint/parser": "^4.28.2",
     "check-dependencies": "^1.1.0",
