@@ -1,7 +1,7 @@
 # floor3d-card (aka Your Home Digital Twin)
 
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg?style=for-the-badge)](https://github.com/custom-components/hacs)
-[![Version](https://img.shields.io/badge/version-v4.1.2--r136-blue.svg?style=for-the-badge)](https://github.com/visaodeempresa/new-floor3d-card/releases/tag/v4.1.2-r136)
+[![Version](https://img.shields.io/badge/version-v4.1.2--r137-blue.svg?style=for-the-badge)](https://github.com/visaodeempresa/new-floor3d-card/releases/tag/v4.1.2-r137)
 
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://buymeacoffee.com/AndyHA)
 
@@ -9,14 +9,14 @@ Javascript Module for the Home Assistant visualization Card for 3D Models with b
 
 ---
 
-## Community Contribution — Three.js r136 Compatibility Update
+## Community Contribution — Three.js r137 Compatibility Update
 
 > **"The outside looks the same, but the engine under the hood keeps purring."**
 
 This fork received a community-driven maintenance update to keep `floor3d-card` alive and healthy for the long run. Here's what happened behind the scenes:
 
-- **Three.js upgraded from r134 → r136** — the 3D engine that powers the entire card was bumped to the latest stable revision, ensuring compatibility with modern browsers and future HA updates.
-- **Zero breaking changes** — a thorough analysis of the r136 release notes confirmed that none of the breaking changes affected this project. Not a single line of source code needed to change.
+- **Three.js upgraded from r134 → r137** — the 3D engine that powers the entire card was bumped to the latest stable revision, ensuring compatibility with modern browsers and future HA updates.
+- **Zero breaking changes** — a thorough analysis of the r137 release notes confirmed that none of the breaking changes affected this project. Not a single line of source code needed to change.
 - **Build pipeline modernised** — dependencies updated, `yarn.lock` refreshed, build validated and the compiled `new-floor3d-card.js` (965 KB) regenerated and published as a GitHub Release asset.
 - **HACS integration maintained** — the card continues to appear and update correctly in HACS, tested end-to-end in a real Home Assistant environment.
 
@@ -562,4 +562,4 @@ Sometimes the best way to show that a component works is to show it actually wor
 
 ---
 
-*v4.1.2-r136 — Three.js r136 compatibility · Community contribution by [@visaodeempresa](https://github.com/visaodeempresa)*
+*v4.1.2-r137 — Three.js r137 compatibility · Community contribution by [@visaodeempresa](https://github.com/visaodeempresa)*
