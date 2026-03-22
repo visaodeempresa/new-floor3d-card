@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ActionConfig, LovelaceCard, LovelaceCardEditor } from 'custom-card-helpers';
 
 declare global {
@@ -8,7 +7,6 @@ declare global {
   }
 }
 
-// TODO Add your configuration elements here for type-checking
 export interface Floor3dCardConfig {
   type: string;
   path: string;
