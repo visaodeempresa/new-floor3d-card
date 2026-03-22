@@ -1312,12 +1312,14 @@ export class Floor3dCard extends LitElement {
     }
 
     //this._renderer.physicallyCorrectLights = true;
-    if (this._config.sky && this._config.sky == 'yes') {
-      this._renderer.outputEncoding = THREE.sRGBEncoding;
-    }
+    // FIX r137: outputEncoding deve ser setado incondicionalmente.
+    // No r137 o sRGB encoding foi limitado ao framebuffer default, então precisa
+    // ser declarado explicitamente independente de sky mode.
+    this._renderer.outputEncoding = THREE.sRGBEncoding;
     this._renderer.toneMapping = THREE.LinearToneMapping;
-    //this._renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    this._renderer.toneMappingExposure = 0.6;
+    // FIX r137: reduzido de 0.6 para 0.45 para compensar a remoção do
+    // inline sRGB decode que causava overexposure visual na r137/r138.
+    this._renderer.toneMappingExposure = 0.45;
     this._renderer.localClippingEnabled = true;
     this._renderer.physicallyCorrectLights = false;
 
@@ -2015,6 +2017,17 @@ export class Floor3dCard extends LitElement {
     // Materials Loaded Event: last root material passed to the function
     console.log('Material loaded start');
     materials.preload();
+    // FIX r137: setar encoding explícito em todas as texturas do MTLLoader.
+    // O inline sRGB decode foi removido no r137; agora o encoding deve ser
+    // declarado para ativar o hardware sRGB sampling corretamente.
+    const matMap = (materials as any).materials as { [key: string]: THREE.Material };
+    Object.values(matMap).forEach((mat: THREE.Material) => {
+      const meshMat = mat as THREE.MeshPhongMaterial;
+      if (meshMat.map) meshMat.map.encoding = THREE.sRGBEncoding;
+      if (meshMat.emissiveMap) meshMat.emissiveMap.encoding = THREE.sRGBEncoding;
+      if (meshMat.specularMap) meshMat.specularMap.encoding = THREE.sRGBEncoding;
+      if (meshMat.normalMap) meshMat.normalMap.encoding = THREE.LinearEncoding;
+    });
     let path = this._config.path;
     const lastChar = path.substr(-1);
     if (lastChar != '/') {
