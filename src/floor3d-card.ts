@@ -1290,7 +1290,15 @@ export class Floor3dCard extends LitElement {
 
     // create and initialize renderer
 
-    this._renderer = new THREE.WebGLRenderer({ antialias: true, logarithmicDepthBuffer: true, alpha: true });
+    // FIX r138-01: powerPreference força GPU dedicada em dispositivos dual-GPU
+    // (laptops com Intel integrada + Nvidia/AMD dedicada), evitando fallback
+    // para GPU integrada que causaria queda de performance.
+    this._renderer = new THREE.WebGLRenderer({
+      antialias: true,
+      logarithmicDepthBuffer: true,
+      alpha: true,
+      powerPreference: 'high-performance',
+    });
     this._maxtextureimage = this._renderer.capabilities.maxTextures;
     console.log('Max Texture Image Units: ' + this._maxtextureimage);
     console.log('Max Texture Image Units: number of lights casting shadow should be less than the above number');
@@ -1465,7 +1473,10 @@ export class Floor3dCard extends LitElement {
 
       this._controls = new OrbitControls(this._camera, this._renderer.domElement);
 
-      this._renderer.setPixelRatio(window.devicePixelRatio);
+      // FIX r138-01: limitar pixelRatio a 2.0 para evitar sobrecarga de renderização
+      // em dispositivos high-DPI (ex: iPhone 3x renderiza 9x mais pixels, desnecessário).
+      // Valor 2.0 mantém qualidade visual excelente com ~55% menos carga de GPU.
+      this._renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
       this._controls.maxPolarAngle = (0.85 * Math.PI) / 2;
       this._controls.addEventListener('change', this._changeListener);
