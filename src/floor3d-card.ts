@@ -17,11 +17,11 @@ import { localize } from './localize/localize';
 //import three.js libraries for 3D rendering
 import * as TWEEN from '@tweenjs/tween.js';
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
-import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader.js';
-import { GLTFLoader, GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { Sky } from 'three/examples/jsm/objects/Sky.js';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
+import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader';
+import { GLTFLoader, GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
+import { Sky } from 'three/examples/jsm/objects/Sky';
 import { Object3D } from 'three';
 import '../elements/button';
 
@@ -1290,15 +1290,7 @@ export class Floor3dCard extends LitElement {
 
     // create and initialize renderer
 
-    // FIX r138-01: powerPreference força GPU dedicada em dispositivos dual-GPU
-    // (laptops com Intel integrada + Nvidia/AMD dedicada), evitando fallback
-    // para GPU integrada que causaria queda de performance.
-    this._renderer = new THREE.WebGLRenderer({
-      antialias: true,
-      logarithmicDepthBuffer: true,
-      alpha: true,
-      powerPreference: 'high-performance',
-    });
+    this._renderer = new THREE.WebGLRenderer({ antialias: true, logarithmicDepthBuffer: true, alpha: true });
     this._maxtextureimage = this._renderer.capabilities.maxTextures;
     console.log('Max Texture Image Units: ' + this._maxtextureimage);
     console.log('Max Texture Image Units: number of lights casting shadow should be less than the above number');
@@ -1320,14 +1312,12 @@ export class Floor3dCard extends LitElement {
     }
 
     //this._renderer.physicallyCorrectLights = true;
-    // FIX r137: outputEncoding deve ser setado incondicionalmente.
-    // No r137 o sRGB encoding foi limitado ao framebuffer default, então precisa
-    // ser declarado explicitamente independente de sky mode.
-    this._renderer.outputEncoding = THREE.sRGBEncoding;
+    if (this._config.sky && this._config.sky == 'yes') {
+      this._renderer.outputEncoding = THREE.sRGBEncoding;
+    }
     this._renderer.toneMapping = THREE.LinearToneMapping;
-    // FIX r137: reduzido de 0.6 para 0.45 para compensar a remoção do
-    // inline sRGB decode que causava overexposure visual na r137/r138.
-    this._renderer.toneMappingExposure = 0.45;
+    //this._renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    this._renderer.toneMappingExposure = 0.6;
     this._renderer.localClippingEnabled = true;
     this._renderer.physicallyCorrectLights = false;
 
@@ -1473,10 +1463,7 @@ export class Floor3dCard extends LitElement {
 
       this._controls = new OrbitControls(this._camera, this._renderer.domElement);
 
-      // FIX r138-01: limitar pixelRatio a 2.0 para evitar sobrecarga de renderização
-      // em dispositivos high-DPI (ex: iPhone 3x renderiza 9x mais pixels, desnecessário).
-      // Valor 2.0 mantém qualidade visual excelente com ~55% menos carga de GPU.
-      this._renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      this._renderer.setPixelRatio(window.devicePixelRatio);
 
       this._controls.maxPolarAngle = (0.85 * Math.PI) / 2;
       this._controls.addEventListener('change', this._changeListener);
@@ -2028,17 +2015,6 @@ export class Floor3dCard extends LitElement {
     // Materials Loaded Event: last root material passed to the function
     console.log('Material loaded start');
     materials.preload();
-    // FIX r137: setar encoding explícito em todas as texturas do MTLLoader.
-    // O inline sRGB decode foi removido no r137; agora o encoding deve ser
-    // declarado para ativar o hardware sRGB sampling corretamente.
-    const matMap = (materials as any).materials as { [key: string]: THREE.Material };
-    Object.values(matMap).forEach((mat: THREE.Material) => {
-      const meshMat = mat as THREE.MeshPhongMaterial;
-      if (meshMat.map) meshMat.map.encoding = THREE.sRGBEncoding;
-      if (meshMat.emissiveMap) meshMat.emissiveMap.encoding = THREE.sRGBEncoding;
-      if (meshMat.specularMap) meshMat.specularMap.encoding = THREE.sRGBEncoding;
-      if (meshMat.normalMap) meshMat.normalMap.encoding = THREE.LinearEncoding;
-    });
     let path = this._config.path;
     const lastChar = path.substr(-1);
     if (lastChar != '/') {
@@ -2750,10 +2726,6 @@ export class Floor3dCard extends LitElement {
 
     if (_foundobject instanceof THREE.Mesh) {
       const texture = new THREE.CanvasTexture(canvas);
-      // FIX r138-02: CanvasTexture contém dados sRGB (canvas2D sempre produz sRGB).
-      // Sem encoding explícito, o renderer trata como linear após a remoção do
-      // inline sRGB decode no r137, causando overlays mais claros que o esperado.
-      texture.encoding = THREE.sRGBEncoding;
       texture.repeat.set(1, 1);
 
       if (fileExt == 'glb') {
@@ -2777,9 +2749,6 @@ export class Floor3dCard extends LitElement {
     // put the canvas texture with the text on top of the Sprite object: consider merge with the applyTextCanvas
 
     const texture = new THREE.CanvasTexture(canvas);
-    // FIX r138-02: Sprite overlays também usam CanvasTexture com dados sRGB.
-    // Mesmo fix de encoding que _applyTextCanvas para consistência visual.
-    texture.encoding = THREE.sRGBEncoding;
     texture.repeat.set(1, 1);
 
     if (object.material.name.startsWith('f3dmat')) {
