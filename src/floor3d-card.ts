@@ -2750,6 +2750,10 @@ export class Floor3dCard extends LitElement {
 
     if (_foundobject instanceof THREE.Mesh) {
       const texture = new THREE.CanvasTexture(canvas);
+      // FIX r138-02: CanvasTexture contém dados sRGB (canvas2D sempre produz sRGB).
+      // Sem encoding explícito, o renderer trata como linear após a remoção do
+      // inline sRGB decode no r137, causando overlays mais claros que o esperado.
+      texture.encoding = THREE.sRGBEncoding;
       texture.repeat.set(1, 1);
 
       if (fileExt == 'glb') {
@@ -2773,6 +2777,9 @@ export class Floor3dCard extends LitElement {
     // put the canvas texture with the text on top of the Sprite object: consider merge with the applyTextCanvas
 
     const texture = new THREE.CanvasTexture(canvas);
+    // FIX r138-02: Sprite overlays também usam CanvasTexture com dados sRGB.
+    // Mesmo fix de encoding que _applyTextCanvas para consistência visual.
+    texture.encoding = THREE.sRGBEncoding;
     texture.repeat.set(1, 1);
 
     if (object.material.name.startsWith('f3dmat')) {
