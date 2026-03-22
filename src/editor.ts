@@ -1,5 +1,3 @@
-
-
 import { LitElement, CSSResultGroup, css } from 'lit';
 import { property, customElement, state } from 'lit/decorators.js';
 import { TemplateResult, html } from 'lit';
@@ -33,8 +31,6 @@ export class Floor3dCardEditor extends LitElement implements LovelaceCardEditor 
   private _objects: any;
   private _entity_ids: string[];
   private _visible: any[];
-
-  
 
   connectedCallback() {
     super.connectedCallback();
@@ -87,8 +83,6 @@ export class Floor3dCardEditor extends LitElement implements LovelaceCardEditor 
     this._config.object_groups = this._configObjectArray;
     this._config.entities = this._configArray;
     this._config.zoom_areas = this._configZoomArray;
-
-    
 
     const typeOptions = {
       icon: 'book-variant',
@@ -307,7 +301,6 @@ export class Floor3dCardEditor extends LitElement implements LovelaceCardEditor 
 
     console.log('End editor config');
 
-    
   }
 
   get _show_warning(): boolean {
@@ -391,7 +384,7 @@ export class Floor3dCardEditor extends LitElement implements LovelaceCardEditor 
     }
 
     const options = this._options.object_groups;
-    
+
     const valueElementArray: TemplateResult[] = [];
     for (const config of this._configObjectArray) {
       const index = this._configObjectArray.indexOf(config);
