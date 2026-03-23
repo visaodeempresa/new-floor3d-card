@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-types */
 import { LitElement, html, TemplateResult, css, PropertyValues, CSSResultGroup, render } from 'lit';
 import { property, customElement, state } from 'lit/decorators.js';
 import {
@@ -7,14 +6,14 @@ import {
   handleAction,
   LovelaceCardEditor,
   fireEvent,
-} from 'custom-card-helpers'; // This is a community maintained npm module with common helper functions/types
+} from 'custom-card-helpers';
 import './editor';
 import { HassEntity } from 'home-assistant-js-websocket';
 import { createConfigArray, createObjectGroupConfigArray, getLovelace } from './helpers';
 import type { Floor3dCardConfig } from './types';
 import { CARD_VERSION } from './const';
 import { localize } from './localize/localize';
-//import three.js libraries for 3D rendering
+
 import * as TWEEN from '@tweenjs/tween.js';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
@@ -25,14 +24,12 @@ import { Sky } from 'three/examples/jsm/objects/Sky';
 import { Object3D } from 'three';
 import '../elements/button';
 
-/* eslint no-console: 0 */
 console.info(
   `%c  NEW-FLOOR3D-CARD \n%c  ${localize('common.version')} ${CARD_VERSION}    `,
   'color: orange; font-weight: bold; background: black',
   'color: white; font-weight: bold; background: dimgray',
 );
 
-// This puts your card into the UI card picker dialog
 (window as any).customCards = (window as any).customCards || [];
 (window as any).customCards.push({
   type: 'new-floor3d-card',
@@ -45,7 +42,6 @@ class ModelSource {
   public static GLB = 1;
 }
 
-// TODO Name your custom element
 @customElement('new-floor3d-card')
 export class Floor3dCard extends LitElement {
   private _scene?: THREE.Scene;
@@ -153,7 +149,6 @@ export class Floor3dCard extends LitElement {
         this._longpressTimeout = null;
       }
 
-      // Handle mouse click events that are less than 200ms in duration
       if (this._clickStart && Date.now() - this._clickStart < 200) {
         if (this._config.click == 'yes' || this._selectionModeEnabled) {
           this._firEvent(evt);
@@ -222,13 +217,12 @@ export class Floor3dCard extends LitElement {
     const entityFilter = (stateObj: HassEntity): boolean => {
       return !isNaN(Number(stateObj.state));
     };
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     const _arrayFilter = (array: any[], conditions: Array<(value: any) => boolean>, maxSize: number) => {
       if (!maxSize || maxSize > array.length) {
         maxSize = array.length;
       }
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const filteredArray: any[] = [];
 
       for (let i = 0; i < array.length && filteredArray.length < maxSize; i++) {
@@ -260,7 +254,7 @@ export class Floor3dCard extends LitElement {
       const conditions: Array<(value: string) => boolean> = [];
 
       if (includeDomains?.length) {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
         conditions.push((eid) => includeDomains!.includes(eid.split('.')[0]));
       }
 
@@ -285,8 +279,6 @@ export class Floor3dCard extends LitElement {
 
       return entityIds;
     };
-
-    //build a valid stub config
 
     let includeDomains = ['binary_sensor'];
     let maxEntities = 2;
@@ -386,14 +378,10 @@ export class Floor3dCard extends LitElement {
     return conf;
   }
 
-  // TODO Add any properities that should cause your element to re-render here
-  // https://lit-element.polymer-project.org/guide/properties
-  //@property({ attribute: false }) public hass!: HomeAssistant;
   @state() private config!: Floor3dCardConfig;
 
-  // https://lit-element.polymer-project.org/guide/properties#accessors-custom
   public setConfig(config: Floor3dCardConfig): void {
-    // TODO Check for required fields and that they are of the proper format
+
     console.log('new-floor3d-card: Set Config Start');
 
     if (!config) {
@@ -509,7 +497,7 @@ export class Floor3dCard extends LitElement {
   getCardSize(): number {
     console.log('Get Card Size Called');
     if (this._renderer) {
-      //return this._renderer.domElement.height / 50;
+
       return 10;
     } else {
       return 10;
@@ -517,7 +505,7 @@ export class Floor3dCard extends LitElement {
   }
 
   firstUpdated(): void {
-    //called after the model has been loaded into the Renderer and first render
+
     console.log('First updated start');
 
     this._card = this.shadowRoot.getElementById(this._card_id);
@@ -549,12 +537,12 @@ export class Floor3dCard extends LitElement {
   }
 
   private _render(): void {
-    //render the model
+
     if (this._torch) {
       this._torch.position.copy(this._camera.position);
       this._torch.rotation.copy(this._camera.rotation);
       this._camera.getWorldDirection(this._torch.target.position);
-      //console.log(this._renderer.info);
+
     }
     this._renderer.render(this._scene, this._camera);
   }
@@ -576,7 +564,7 @@ export class Floor3dCard extends LitElement {
   }
 
   private _firEvent(e: any): void {
-    //double click on object to show the name
+
     const intersects = this._getintersect(e);
     if (intersects.length > 0 && intersects[0].object.name != '') {
       if (this._selectionModeEnabled) {
@@ -612,12 +600,10 @@ export class Floor3dCard extends LitElement {
     }
   }
 
-  // Hold down the mouse button on object
   private _longPressEvent(_e: any): void {
     if (this._clickStart == null) return;
     this._clickStart = null;
 
-    // Use intersections from the mousedown event
     const intersects = this._currentIntersections;
     this._currentIntersections = null;
     if (intersects.length > 0 && intersects[0].object.name != '') {
@@ -665,8 +651,7 @@ export class Floor3dCard extends LitElement {
       console.log('Object:', objectName);
 
       if (this._selectionModeEnabled) {
-        // Color objects blue when we click them, so we can build a list of
-        // rooms and walls to control a light
+
         const object: any = intersects[0].object;
         if (!this._selectedmaterial) {
           const newMaterial: any = new THREE.MeshStandardMaterial({ color: 0x7777ff });
@@ -703,7 +688,7 @@ export class Floor3dCard extends LitElement {
                 });
               } else if (entity.type3d == 'camera') {
                 fireEvent(this, 'hass-more-info', { entityId: entity.entity });
-                //this._hass.states[entity.entity].attributes["entity_picture"]
+
               }
               break;
             }
@@ -856,11 +841,11 @@ export class Floor3dCard extends LitElement {
 
   public set hass(hass: HomeAssistant) {
     try {
-      //called by Home Assistant Lovelace when a change of state is detected in entities
+
       this._hass = hass;
       if (this._config.entities) {
         if (!this._states) {
-          //prepares to save the state
+
           this._states = [];
           this._unit_of_measurement = [];
           this._color = [];
@@ -1124,7 +1109,6 @@ export class Floor3dCard extends LitElement {
       azimuth: 0,
     };
 
-    //init sky
     console.log('Init Sky');
 
     this._sky = new Sky();
@@ -1137,8 +1121,6 @@ export class Floor3dCard extends LitElement {
     uniforms['mieCoefficient'].value = effectController.mieCoefficient;
     uniforms['mieDirectionalG'].value = effectController.mieDirectionalG;
 
-    // init ground
-
     console.log('Init Ground');
 
     const groundGeo = new THREE.PlaneGeometry(10000, 10000);
@@ -1149,10 +1131,8 @@ export class Floor3dCard extends LitElement {
     ground.rotation.x = -Math.PI / 2;
     ground.receiveShadow = false;
     ground.castShadow = false;
-    //this._bboxmodel.add(ground);
-    this._scene.add(ground);
 
-    // inti sun
+    this._scene.add(ground);
 
     console.log('Init Sun');
 
@@ -1204,7 +1184,6 @@ export class Floor3dCard extends LitElement {
 
     this._sun.position.copy(sun.multiplyScalar(5000));
 
-    // sun directional light parameters
     const d = 1000;
 
     this._sun.shadow.camera;
@@ -1222,7 +1201,6 @@ export class Floor3dCard extends LitElement {
 
     this._renderer.shadowMap.needsUpdate = true;
 
-    //FOR DEBUG: this._scene.add(new THREE.CameraHelper(this._sun.shadow.camera));
   }
 
   private _initTorch(): void {
@@ -1277,18 +1255,13 @@ export class Floor3dCard extends LitElement {
   }
 
   protected display3dmodel(): void {
-    //load the model into the GL Renderer
 
     console.log('Start Build Renderer');
     this._modelready = false;
 
-    //create and initialize scene and camera
-
     this._scene = new THREE.Scene();
 
     this._camera = new THREE.PerspectiveCamera(45, 1, 0.1, 10000);
-
-    // create and initialize renderer
 
     this._renderer = new THREE.WebGLRenderer({ antialias: true, logarithmicDepthBuffer: true, alpha: true });
     this._maxtextureimage = this._renderer.capabilities.maxTextures;
@@ -1311,12 +1284,11 @@ export class Floor3dCard extends LitElement {
       this._scene.background = new THREE.Color('#aaaaaa');
     }
 
-    //this._renderer.physicallyCorrectLights = true;
     if (this._config.sky && this._config.sky == 'yes') {
       this._renderer.outputEncoding = THREE.sRGBEncoding;
     }
     this._renderer.toneMapping = THREE.LinearToneMapping;
-    //this._renderer.toneMapping = THREE.ACESFilmicToneMapping;
+
     this._renderer.toneMappingExposure = 0.6;
     this._renderer.localClippingEnabled = true;
     this._renderer.physicallyCorrectLights = false;
@@ -1334,7 +1306,7 @@ export class Floor3dCard extends LitElement {
       let fileExt = this._config.objfile.split('?')[0].split('.').pop();
 
       if (fileExt == 'obj') {
-        //waterfront format
+
         if (this._config.mtlfile && this._config.mtlfile != '') {
           const mtlLoader: MTLLoader = new MTLLoader();
           mtlLoader.setPath(path);
@@ -1359,7 +1331,7 @@ export class Floor3dCard extends LitElement {
         }
         this._modeltype = ModelSource.OBJ;
       } else if (fileExt == 'glb') {
-        //glb format
+
         const loader = new GLTFLoader().setPath(path);
         loader.load(
           this._config.objfile,
@@ -1386,12 +1358,12 @@ export class Floor3dCard extends LitElement {
   }
 
   private _onLoadMaterialProgress(_progress: ProgressEvent): void {
-    //progress function called at regular intervals during material loading process
+
     this._content.innerText = '1/2: ' + Math.round((_progress.loaded / _progress.total) * 100) + '%';
   }
 
   private _onLoadObjectProgress(_progress: ProgressEvent): void {
-    //progress function called at regular intervals during object loading process
+
     this._content.innerText = '2/2: ' + Math.round((_progress.loaded / _progress.total) * 100) + '%';
   }
 
@@ -1400,7 +1372,6 @@ export class Floor3dCard extends LitElement {
   }
 
   private _onLoaded3DModel(object: Object3D): void {
-    // Object Loaded Event: last root object passed to the function
 
     console.log('Object loaded start');
 
@@ -1473,11 +1444,7 @@ export class Floor3dCard extends LitElement {
       this._controls.update();
 
       if (this._config.lock_camera == 'yes') {
-        /*
-                this._controls.enableRotate = false;
-                this._controls.enableZoom = false;
-                this._controls.enablePan = false;
-        */
+
         this._controls.enabled = false;
       }
 
@@ -1500,15 +1467,6 @@ export class Floor3dCard extends LitElement {
 
       this._resizeCanvas();
 
-      /*
-      this._zoom.forEach(element => {
-
-        this._bboxmodel.localToWorld(element.position);
-        this._bboxmodel.localToWorld(element.target);
-
-      });
-      */
-
       this._zIndexInterval = window.setInterval(() => {
         this._zIndexChecker();
       }, 250);
@@ -1526,7 +1484,6 @@ export class Floor3dCard extends LitElement {
     this._levels = [];
     this._raycasting = [];
     this._raycastinglevels = [];
-    //TODO: explore solution with layers
 
     console.log('Found level 0');
 
@@ -1591,7 +1548,6 @@ export class Floor3dCard extends LitElement {
       }
 
       this._raycastinglevels[level].push(element);
-      //this._raycasting.push(element);
 
       if (element instanceof THREE.Mesh) {
         if (!Array.isArray((element as THREE.Mesh).material)) {
@@ -2012,7 +1968,7 @@ export class Floor3dCard extends LitElement {
   }
 
   private _onLoaded3DMaterials(materials: MTLLoader.MaterialCreator): void {
-    // Materials Loaded Event: last root material passed to the function
+
     console.log('Material loaded start');
     materials.preload();
     let path = this._config.path;
@@ -2035,7 +1991,7 @@ export class Floor3dCard extends LitElement {
 
   private _add3dObjects(): void {
     try {
-      // Add-Modify the objects bound to the entities in the card config
+
       console.log('Add Objects Start');
       if (this._states && this._config.entities) {
         this._round_per_seconds = [];
@@ -2092,7 +2048,7 @@ export class Floor3dCard extends LitElement {
                 }
 
                 if (entity.door.doortype == 'swing') {
-                  // console.log("Start Add Door Swing");
+
                   let position = new THREE.Vector3();
                   if (entity.door.hinge) {
                     let hinge: THREE.Mesh = this._scene.getObjectByName(entity.door.hinge) as THREE.Mesh;
@@ -2196,11 +2152,8 @@ export class Floor3dCard extends LitElement {
                     );
                   });
 
-                  // console.log("End Add Door Swing");
                 }
                 if (entity.door.doortype == 'slide') {
-                  // if (entity.door.doortype == 'slide') {
-                  // console.log("Start Add Door Slide");
 
                   this._object_ids[i].objects.forEach((element) => {
                     let _obj: any = this._scene.getObjectByName(element.object_id);
@@ -2212,7 +2165,6 @@ export class Floor3dCard extends LitElement {
                     );
                   });
 
-                  // console.log("End Add Door Slide");
                 }
               }
               if (entity.type3d == 'cover') {
@@ -2236,18 +2188,18 @@ export class Floor3dCard extends LitElement {
                   switch (entity.cover.side) {
                     case 'up':
                       panevertices = [
-                        new THREE.Vector3(boxpane.min.x, boxpane.max.y, boxpane.min.z), // 000
-                        new THREE.Vector3(boxpane.min.x, boxpane.max.y, boxpane.max.z), // 001
-                        new THREE.Vector3(boxpane.max.x, boxpane.max.y, boxpane.min.z), // 010
-                        new THREE.Vector3(boxpane.max.x, boxpane.max.y, boxpane.max.z), // 011
+                        new THREE.Vector3(boxpane.min.x, boxpane.max.y, boxpane.min.z),
+                        new THREE.Vector3(boxpane.min.x, boxpane.max.y, boxpane.max.z),
+                        new THREE.Vector3(boxpane.max.x, boxpane.max.y, boxpane.min.z),
+                        new THREE.Vector3(boxpane.max.x, boxpane.max.y, boxpane.max.z),
                       ];
                       break;
                     case 'down':
                       panevertices = [
-                        new THREE.Vector3(boxpane.min.x, boxpane.min.y, boxpane.min.z), // 000
-                        new THREE.Vector3(boxpane.min.x, boxpane.min.y, boxpane.max.z), // 001
-                        new THREE.Vector3(boxpane.max.x, boxpane.min.y, boxpane.min.z), // 010
-                        new THREE.Vector3(boxpane.max.x, boxpane.min.y, boxpane.max.z), // 011
+                        new THREE.Vector3(boxpane.min.x, boxpane.min.y, boxpane.min.z),
+                        new THREE.Vector3(boxpane.min.x, boxpane.min.y, boxpane.max.z),
+                        new THREE.Vector3(boxpane.max.x, boxpane.min.y, boxpane.min.z),
+                        new THREE.Vector3(boxpane.max.x, boxpane.min.y, boxpane.max.z),
                       ];
                       break;
                   }
@@ -2273,8 +2225,6 @@ export class Floor3dCard extends LitElement {
                     (_obj.material as THREE.Material).clippingPlanes = clipPlanes;
                   });
 
-                  //(pane.material as THREE.Material).clippingPlanes = clipPlanes;
-
                   if (this._config.shadow) {
                     if (this._config.shadow == 'yes') {
                       (pane.material as THREE.Material).clipShadows = true;
@@ -2283,14 +2233,11 @@ export class Floor3dCard extends LitElement {
                     }
                   }
 
-                  //const planehelper = new THREE.PlaneHelper(coverplane, 200);
-                  //this._scene.add(planehelper);
-
                   this._updatecover(entity, this._states[i], i);
                 }
               }
               if (entity.type3d == 'light') {
-                // Add Virtual Light Objects
+
                 this._object_ids[i].objects.forEach((element) => {
                   const _foundobject: any = this._scene.getObjectByName(element.object_id);
                   if (_foundobject) {
@@ -2345,10 +2292,10 @@ export class Floor3dCard extends LitElement {
                         0.5,
                         decay,
                       );
-                      //this._bboxmodel.add(slight);
+
                       this._levels[_foundobject.userData.level].add(slight);
                       let target = new THREE.Object3D();
-                      //this._bboxmodel.add(target);
+
                       this._levels[_foundobject.userData.level].add(target);
                       slight.position.set(x, y, z);
                       if (entity.light.light_direction) {
@@ -2405,7 +2352,7 @@ export class Floor3dCard extends LitElement {
                 });
               }
               if (entity.type3d == 'color') {
-                // Clone Material to allow object color changes based on Color Conditions Objects
+
                 let j = 0;
                 this._object_ids[i].objects.forEach((element) => {
                   let _foundobject: any = this._scene.getObjectByName(element.object_id);
@@ -2417,7 +2364,7 @@ export class Floor3dCard extends LitElement {
                 });
               }
               if (entity.type3d == 'text') {
-                // Clone object to print the text
+
                 this._object_ids[i].objects.forEach((element) => {
                   let _foundobject: any = this._scene.getObjectByName(element.object_id);
 
@@ -2426,9 +2373,8 @@ export class Floor3dCard extends LitElement {
 
                   let _newobject = _foundobject.clone();
 
-                  //(_newobject as Mesh).scale.set(1.005, 1.005, 1.005);
                   _newobject.name = 'f3dobj_' + _foundobject.name;
-                  //this._bboxmodel.add(_newobject);
+
                   this._levels[_foundobject.userData.level].add(_newobject);
                 });
               }
@@ -2469,12 +2415,9 @@ export class Floor3dCard extends LitElement {
     }
   }
 
-  // manage all entity types
-
   private _manageZoom(): void {
     if (this._config.zoom_areas) {
       this._config.zoom_areas.forEach((element) => {
-        // For each element of the Zoom Area array calculate zoom position and initialize zoom array
 
         if (element.object_id && element.object_id != '') {
           let _foundobject: any = this._scene.getObjectByName(element.object_id);
@@ -2482,13 +2425,6 @@ export class Floor3dCard extends LitElement {
           if (_foundobject && _foundobject instanceof THREE.Mesh) {
             const _targetMesh: THREE.Mesh = _foundobject as THREE.Mesh;
             let targetBox = new THREE.Box3().setFromObject(_targetMesh);
-
-            /*this._centerobjecttopivot(_targetMesh, targetBox.min);
-            _targetMesh.geometry.applyMatrix4(
-              new THREE.Matrix4().makeTranslation(-targetBox.min.x, -targetBox.min.y, -targetBox.min.z),
-            );
-            targetBox = new THREE.Box3().setFromObject(_targetMesh);
-            */
 
             let targetVector: THREE.Vector3 = new THREE.Vector3();
             targetVector.addVectors(targetBox.min, targetBox.max.sub(targetBox.min).multiplyScalar(0.5));
@@ -2526,7 +2462,6 @@ export class Floor3dCard extends LitElement {
   }
 
   private _createroom(entity: Floor3dCardConfig, i: number): void {
-    // createroom
 
     console.log('Create Room');
 
@@ -2559,16 +2494,11 @@ export class Floor3dCard extends LitElement {
             dimensions.z - 4,
           );
 
-          //const meshPosition = dimensions.addVectors(newRoomBox.min, newRoomBox.max).multiplyScalar(0.5);
           const meshPosition = oldRoomBox.min.clone();
-          // move new mesh center so it's aligned with the original object
+
           meshPosition.y += 2;
           meshPosition.x += 2;
           meshPosition.z += 2;
-
-          //TBD work on position bug
-          //const matrixmesh = new THREE.Matrix4().setPosition(meshPosition);
-          //newRoomGeometry.applyMatrix4(matrixmesh);
 
           const newRoomMaterial: THREE.MeshPhongMaterial = new THREE.MeshPhongMaterial({
             color: 0xff0000,
@@ -2597,8 +2527,6 @@ export class Floor3dCard extends LitElement {
           const sprite_height: number = entity.room.height ? entity.room.height : 75;
           newSprite.scale.set(sprite_width, sprite_height, 5);
 
-          //TBD work on position bug
-
           const spritePosition = new THREE.Vector3(
             meshPosition.x + dimensions.x / 2,
             newRoomBox.max.y + elevation / 2 + sprite_height / 2,
@@ -2612,7 +2540,6 @@ export class Floor3dCard extends LitElement {
             }
           }
 
-          //this._bboxmodel.add(newSprite);
           this._levels[_roomMesh.userData.level].add(newSprite);
           this._levels[_roomMesh.userData.level].add(newRoomMesh);
 
@@ -2621,9 +2548,6 @@ export class Floor3dCard extends LitElement {
           newRoomMesh.geometry.applyMatrix4(
             new THREE.Matrix4().makeTranslation(-newRoomBox.min.x, -newRoomBox.min.y, -newRoomBox.min.z),
           );
-
-          //const matrixsprite = new THREE.Matrix4().setPosition(new THREE.Vector3(meshPosition.x,newRoomBox.max.y+(elevation / 2)+(sprite_height / 2), meshPosition.z));
-          //newSprite.applyMatrix4(matrixsprite);
 
           newRoomMesh.position.set(meshPosition.x, meshPosition.y, meshPosition.z);
           newSprite.position.set(spritePosition.x, spritePosition.y, spritePosition.z);
@@ -2637,7 +2561,6 @@ export class Floor3dCard extends LitElement {
   }
 
   private _updateroom(entity: Floor3dCardConfig, text: string, uom: string, i: number): void {
-    //update sprite text and other change conditions
 
     const _roomMesh: THREE.Object3D = this._scene.getObjectByName(this._rooms[i]);
     const _roomSprite: THREE.Object3D = this._scene.getObjectByName(this._sprites[i]);
@@ -2680,11 +2603,9 @@ export class Floor3dCard extends LitElement {
   }
 
   private _updateTextCanvas(entity: Floor3dCardConfig, canvas: HTMLCanvasElement, text: string): void {
-    //Manages the update of the text entities according to their configuration and the new text of the entity state
 
     const ctx = canvas.getContext('2d');
 
-    // Prepare the font to be able to measure
     let fontSize = 56;
     ctx.font = `${fontSize}px ${entity.font ? entity.font : 'monospace'}`;
 
@@ -2697,7 +2618,6 @@ export class Floor3dCard extends LitElement {
     if (entity.span) {
       perct = parseFloat(entity.span) / 100.0;
     }
-    // Resize canvas to match text size
 
     width = width / perct;
     height = height / perct;
@@ -2706,7 +2626,6 @@ export class Floor3dCard extends LitElement {
     canvas.style.width = width + 'px';
     canvas.style.height = height + 'px';
 
-    // Re-apply font since canvas is resized.
     ctx.font = `${fontSize}px ${entity.font ? entity.font : 'monospace'}`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
@@ -2720,7 +2639,7 @@ export class Floor3dCard extends LitElement {
   }
 
   private _applyTextCanvas(canvas: HTMLCanvasElement, object: THREE.Object3D) {
-    // put the canvas texture with the text on top of the generic object: consider merge with the applyTextCanvasSprite
+
     const _foundobject: any = object;
     let fileExt = this._config.objfile.split('?')[0].split('.').pop();
 
@@ -2746,7 +2665,6 @@ export class Floor3dCard extends LitElement {
   }
 
   private _applyTextCanvasSprite(canvas: HTMLCanvasElement, object: THREE.Sprite) {
-    // put the canvas texture with the text on top of the Sprite object: consider merge with the applyTextCanvas
 
     const texture = new THREE.CanvasTexture(canvas);
     texture.repeat.set(1, 1);
@@ -2765,7 +2683,7 @@ export class Floor3dCard extends LitElement {
   }
 
   private _TemperatureToRGB(t: number): number[] {
-    let temp = 10000 / t; //kelvins = 1,000,000/mired (and that /100)
+    let temp = 10000 / t;
     let r: number, g: number, b: number;
     let rgb: number[] = [0, 0, 0];
 
@@ -2794,7 +2712,7 @@ export class Floor3dCard extends LitElement {
   }
 
   private _RGBToHex(r: number, g: number, b: number): string {
-    // RGB Color array to hex string converter
+
     let rs: string = r.toString(16);
     let gs: string = g.toString(16);
     let bs: string = b.toString(16);
@@ -2816,7 +2734,6 @@ export class Floor3dCard extends LitElement {
   }
 
   private _updatelight(entity: Floor3dCardConfig, i: number): void {
-    // Illuminate the light object when, for the bound device, one of its attribute gets modified in HA. See set hass property
 
     this._object_ids[i].objects.forEach((element) => {
       const light: any = this._scene.getObjectByName(element.object_id + '_light');
@@ -2849,7 +2766,7 @@ export class Floor3dCard extends LitElement {
         }
       } else {
         light.intensity = 0;
-        //light.color = new THREE.Color('#000000');
+
       }
       if (this._config.extralightmode) {
         if (this._config.extralightmode == 'yes') {
@@ -2873,8 +2790,6 @@ export class Floor3dCard extends LitElement {
   }
 
   private _updatedoor(entity: Floor3dCardConfig, i: number): void {
-    // perform action on door objects
-    // console.log("Update Door Start");
 
     const _obj: any = this._scene.getObjectByName(this._object_ids[i].objects[0].object_id);
 
@@ -2892,7 +2807,7 @@ export class Floor3dCard extends LitElement {
           this._rotatedoorpivot(entity, i);
         }
         if (entity.door.doortype == 'slide') {
-          // if (entity.door.doortype == 'slide') {
+
           let pane = this._scene.getObjectByName(entity.door.pane);
           if (!pane) {
             pane = this._scene.getObjectByName(this._object_ids[i].objects[0].object_id);
@@ -2914,30 +2829,26 @@ export class Floor3dCard extends LitElement {
       }
     }
     this._renderer.shadowMap.needsUpdate = true;
-    // console.log("Update Door End");
+
   }
 
   private _centerobjecttopivot(object: THREE.Mesh, pivot: THREE.Vector3) {
-    //Center a Mesh  along is defined pivot point
 
     object.applyMatrix4(new THREE.Matrix4().makeTranslation(-pivot.x, -pivot.y, -pivot.z));
     object.position.copy(pivot);
   }
 
   private _rotatedoorpivot(entity: Floor3dCardConfig, index: number) {
-    // console.log("Rotate Door Start");
 
-    //For a swing door, rotate the objects along the configured axis and the degrees of opening
     this._object_ids[index].objects.forEach((element) => {
       let _obj: any = this._scene.getObjectByName(element.object_id);
 
-      //this._centerobjecttopivot(_obj, this._pivot[index]);
       const targetRotation: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
       const direction = entity.door.swing_direction || entity.door.direction;
 
       if (this._states[index] == 'on') {
         if (direction == 'inner') {
-          //_obj.rotateOnAxis(this._axis_for_door[index], -Math.PI * this._degrees[index] / 180);
+
           if (this._axis_for_door[index].y == 1) {
             targetRotation.y = (-Math.PI * this._degrees[index]) / 180;
           } else if (this._axis_for_door[index].x == 1) {
@@ -2946,7 +2857,7 @@ export class Floor3dCard extends LitElement {
             targetRotation.z = (-Math.PI * this._degrees[index]) / 180;
           }
         } else if (direction == 'outer') {
-          //_obj.rotateOnAxis(this._axis_for_door[index], Math.PI * this._degrees[index] / 180);
+
           if (this._axis_for_door[index].y == 1) {
             targetRotation.y = (Math.PI * this._degrees[index]) / 180;
           } else if (this._axis_for_door[index].x == 1) {
@@ -2965,26 +2876,21 @@ export class Floor3dCard extends LitElement {
         .to(targetRotation, 1200)
         .easing(TWEEN.Easing.Cubic.InOut)
         .onComplete(() => {
-          // Stop animation loop if all tweens finished
+
           this._startOrStopAnimationLoop();
         })
         .start();
       this._startOrStopAnimationLoop();
     });
 
-    // console.log("Rotate Door End");
   }
 
   private _translatedoor(pane: THREE.Object3D, percentage: number, side: string, index: number, doorstate: string) {
-    // console.log("Translate Door Start");
-    //For a slide door, translate the objects according to the configured directions and percentage of opening
 
     let translate: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
 
     let size: THREE.Vector3 = new THREE.Vector3();
     let center: THREE.Vector3 = new THREE.Vector3();
-
-    //TBD let pane = this._scene.getObjectByName(item.door.pane);
 
     let bbox = new THREE.Box3().setFromObject(pane);
 
@@ -3040,18 +2946,17 @@ export class Floor3dCard extends LitElement {
         .to(targetPosition, 1200)
         .easing(TWEEN.Easing.Cubic.InOut)
         .onComplete(() => {
-          // Stop animation loop if all tweens finished
+
           this._startOrStopAnimationLoop();
         })
         .start();
     });
 
     this._startOrStopAnimationLoop();
-    // console.log("Translate Door End");
+
   }
 
   private _updateroomcolor(item: any, index: number): void {
-    // Change the color of the room when, for the bound entity, when the state matches the condition
 
     let _room: any = this._scene.getObjectByName(this._rooms[index]);
 
@@ -3080,7 +2985,6 @@ export class Floor3dCard extends LitElement {
   }
 
   private _updatecolor(item: any, index: number): void {
-    // Change the color of the object when, for the bound device, the state matches the condition
 
     let j = 0;
     this._object_ids[index].objects.forEach((element) => {
@@ -3117,14 +3021,14 @@ export class Floor3dCard extends LitElement {
   }
 
   private _updatehide(entity: Floor3dCardConfig, index: number): void {
-    // hide the object when the state is equal to the configured value
+
     this._object_ids[index].objects.forEach((element) => {
-      //object clickable: check layers solution
+
       const _object: any = this._scene.getObjectByName(element.object_id);
 
       if (_object) {
         if (this._states[index] == entity.hide.state) {
-          //TODO: Layers to hide ?
+
           _object.visible = false;
         } else {
           _object.visible = true;
@@ -3135,7 +3039,7 @@ export class Floor3dCard extends LitElement {
   }
 
   private _updateshow(entity: Floor3dCardConfig, index: number): void {
-    // hide the object when the state is equal to the configured value
+
     this._object_ids[index].objects.forEach((element) => {
       const _object: any = this._scene.getObjectByName(element.object_id);
 
@@ -3143,7 +3047,7 @@ export class Floor3dCard extends LitElement {
         if (this._states[index] == entity.show.state) {
           _object.visible = true;
         } else {
-          //TODO: Layers to hide ?
+
           _object.visible = false;
         }
       }
@@ -3151,27 +3055,20 @@ export class Floor3dCard extends LitElement {
     this._renderer.shadowMap.needsUpdate = true;
   }
 
-  // end of manage entity types
-
-  // https://lit-element.polymer-project.org/guide/lifecycle#shouldupdate
   protected shouldUpdate(_changedProps: PropertyValues): boolean {
     return true;
-    //return hasConfigOrEntityChanged(this, _changedProps, false);
+
   }
 
   private _rotatecalc(entity: Floor3dCardConfig, i: number) {
     let j = this._rotation_index.indexOf(i);
 
-    //1 if the entity is on, 0 if the entity is off
     this._rotation_state[j] = this._states[i] == 'on' ? 1 : 0;
 
-    //If the entity is on and it has the 'percentage' attribute, convert the percentage integer
-    //into a decimal and store it as the rotation state
     if (this._rotation_state[j] != 0 && this._hass.states[entity.entity].attributes['percentage']) {
       this._rotation_state[j] = this._hass.states[entity.entity].attributes['percentage'] / 100;
     }
 
-    //If the entity is on and it is reversed, set the rotation state to the negative value of itself
     if (
       this._rotation_state[j] != 0 &&
       this._hass.states[entity.entity].attributes['direction'] &&
@@ -3184,11 +3081,10 @@ export class Floor3dCard extends LitElement {
   }
 
   private _needsAnimationLoop() {
-    // Check rotations and Tween.getAll()
+
     return this._rotation_state.some((item) => item !== 0) || TWEEN.getAll().length > 0;
   }
 
-  // If every rotating entity and Tween is stopped, disable animation
   private _startOrStopAnimationLoop() {
     if (this._needsAnimationLoop()) {
       if (this._to_animate) return;
@@ -3233,8 +3129,6 @@ export class Floor3dCard extends LitElement {
     this._renderer.render(this._scene, this._camera);
   }
 
-  // https://lit-element.polymer-project.org/guide/templates
-
   protected render(): TemplateResult | void {
     if (this._config.show_error) {
       return this._showError(localize('common.show_error'));
@@ -3257,7 +3151,7 @@ export class Floor3dCard extends LitElement {
   }
 
   private _handleAction(ev: ActionHandlerEvent): void {
-    //not implemented to not interfere with  the Action handler of the Three.js canvas object
+
     if (this.hass && this._config && ev.detail.action) {
       handleAction(this, this.hass, this._config, ev.detail.action);
     }
@@ -3278,7 +3172,6 @@ export class Floor3dCard extends LitElement {
     return html`${errorCard}`;
   }
 
-  // https://lit-element.polymer-project.org/guide/styles
   static get styles(): CSSResultGroup {
     return css``;
   }
