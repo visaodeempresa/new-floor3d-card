@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-
 import { FormfieldBase } from '@material/mwc-formfield/mwc-formfield-base.js';
 import { styles as formfieldStyles } from '@material/mwc-formfield/mwc-formfield.css.js';
 import { customElement, property } from "lit/decorators.js";

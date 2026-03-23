@@ -1,7 +1,7 @@
 {
   "name": "new-floor3d-card",
-  "version": "4.1.2-r138",
-  "description": "Your HA Digital Twin aka new-floor3d-card",
+  "version": "5.0.1-TreeJSr138",
+  "description": "Home Assistant 3D Digital Twin — interactive floor plan card powered by Three.js",
   "keywords": [
     "home-assistant",
     "homeassistant",
@@ -13,7 +13,7 @@
   "type": "module",
   "module": "new-floor3d-card.js",
   "repository": "https://github.com/visaodeempresa/new-floor3d-card",
-  "author": "Andrea Di Zanni <adizanni@msn.com>",
+  "author": "",
   "license": "MIT",
   "dependencies": {
     "@lit-labs/scoped-registry-mixin": "^1.0.4",
@@ -33,7 +33,7 @@
     "custom-card-helpers": "^1.7.2",
     "home-assistant-js-websocket": "^5.11.1",
     "lit": "^3.0.0",
-    "three": "^0.138.0",
+    "three": "^0.136.0",
     "three-spritetext": "^1.6.4"
   },
   "devDependencies": {
@@ -45,7 +45,7 @@
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-terser": "^0.4.4",
-    "@types/three": "^0.138.0",
+    "@types/three": "^0.136.0",
     "@typescript-eslint/eslint-plugin": "^4.28.2",
     "@typescript-eslint/parser": "^4.28.2",
     "check-dependencies": "^1.1.0",
