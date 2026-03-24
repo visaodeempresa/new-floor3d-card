@@ -1,4 +1,5 @@
 {
     "name": "New Floor3d Card",
-    "render_readme": true
+    "render_readme": true,
+    "filename": "new-floor3d-card.js"
 }
