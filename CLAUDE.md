@@ -4,6 +4,12 @@
 
 **A cada entrega finalizada, executar obrigatoriamente todos os passos abaixo, nesta ordem:**
 
+### 0. Regra de versionamento ← SEMPRE
+- **Incrementar o patch a cada entrega**, mesmo que seja só um fix ou ajuste menor
+- Formato: `X.Y.Z-<sufixo>` — incrementar o `Z` (ex: 5.0.2 → 5.0.3 → 5.0.4)
+- Nunca reutilizar uma versão já publicada
+- Nunca encerrar uma entrega sem ter incrementado a versão
+
 ### 1. Bump de versão
 - Atualizar `package.json` → campo `"version"`
 - Atualizar `src/const.ts` → constante `CARD_VERSION`
