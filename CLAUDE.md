@@ -2,11 +2,40 @@
 
 ## Release
 
-**Sempre que uma release for gerada, atualizar a branch `master` com os commits da release.**
+**A cada entrega finalizada, executar obrigatoriamente todos os passos abaixo, nesta ordem:**
 
-Fluxo obrigatório ao criar uma release:
-1. Garantir que os commits da release (bump de versão, dist atualizado) estejam na branch de trabalho
-2. Fazer merge/push desses commits na `master` (via PR ou merge direto, conforme contexto)
-3. Só então criar a tag e publicar a release no GitHub
+### 1. Bump de versão
+- Atualizar `package.json` → campo `"version"`
+- Atualizar `src/const.ts` → constante `CARD_VERSION`
+- Ambos devem ter o mesmo valor
 
-> Nunca publicar uma release cujos commits não estejam refletidos na `master`.
+### 2. Build
+- Rodar `npm run build`
+- Confirmar que `dist/` foi atualizado
+
+### 3. Commit e push na branch de trabalho
+- Commit com mensagem padrão: `release: vX.Y.Z-<sufixo>`
+- Push para a branch atual
+
+### 4. Tag
+- Criar tag: `git tag vX.Y.Z-<sufixo>`
+- Push da tag: `git push origin vX.Y.Z-<sufixo>`
+
+### 5. GitHub Release
+- Criar release no GitHub apontando para a tag
+- Título: `vX.Y.Z-<sufixo> — <descrição curta>`
+- Anexar o arquivo `dist/floor3d-card.js` como asset da release
+- Marcar como **Latest** se for a versão mais recente
+
+### 6. Atualizar master ← OBRIGATÓRIO
+- Garantir que todos os commits da release estejam na `master`
+- Se não puder fazer push direto: criar PR e mergear imediatamente
+- Confirmar com: `git merge-base --is-ancestor <tag-commit> origin/master`
+
+### 7. Verificação final
+- A tag existe no GitHub: `gh release view vX.Y.Z-<sufixo>`
+- A master contém o commit da tag: resultado deve ser `tag está na master`
+- O asset `dist/floor3d-card.js` está anexado à release
+- `hacs.json` está presente e correto na master
+
+> **Nunca encerrar a entrega sem confirmar os 7 passos. O HA só reconhece nova versão quando a release existe, tem o asset, e a master está atualizada.**
