@@ -103,7 +103,6 @@ export interface Floor3dCardConfig {
   show_error: boolean;
   room_templates: any;
   light_templates: any;
-  door_templates: any;
 }
 
 export interface EntityFloor3dCardConfig {
