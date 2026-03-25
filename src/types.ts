@@ -102,6 +102,7 @@ export interface Floor3dCardConfig {
   show_warning: boolean;
   show_error: boolean;
   room_templates: any;
+  light_templates: any;
 }
 
 export interface EntityFloor3dCardConfig {
