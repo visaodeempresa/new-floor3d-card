@@ -839,6 +839,31 @@ export class Floor3dCard extends LitElement {
     }
   }
 
+  private _resolveRoomEntity(entity: any): any {
+    if (!entity.room_template || !this._config.room_templates || !this._config.room_templates[entity.room_template]) {
+      return entity;
+    }
+    const template = this._config.room_templates[entity.room_template];
+    const resolved: any = { ...entity };
+
+    // Merge 'room' config: template as base, entity-level keys override
+    if (template.room) {
+      resolved.room = { ...template.room, ...(entity.room || {}) };
+    }
+
+    // Use template's colorcondition only if entity doesn't define its own
+    if (template.colorcondition && !entity.colorcondition) {
+      resolved.colorcondition = template.colorcondition;
+    }
+
+    // Use template's entity_template only if entity doesn't define its own
+    if (template.entity_template && !entity.entity_template) {
+      resolved.entity_template = template.entity_template;
+    }
+
+    return resolved;
+  }
+
   public set hass(hass: HomeAssistant) {
     try {
 
@@ -860,7 +885,8 @@ export class Floor3dCard extends LitElement {
 
           this._config.entities.forEach((entity) => {
             if (hass.states[entity.entity]) {
-              this._states.push(this._statewithtemplate(entity));
+              const _re = this._resolveRoomEntity(entity);
+              this._states.push(this._statewithtemplate(_re));
               this._canvas.push(null);
               if (hass.states[entity.entity].attributes['unit_of_measurement']) {
                 this._unit_of_measurement.push(hass.states[entity.entity].attributes['unit_of_measurement']);
@@ -883,16 +909,16 @@ export class Floor3dCard extends LitElement {
               if (entity.type3d == 'room') {
                 this._rooms.push(entity.object_id + '_room');
                 this._sprites.push(entity.object_id + '_sprites');
-                if (entity.room.attribute) {
-                  if (hass.states[entity.entity].attributes[entity.room.attribute]) {
-                    this._spritetext.push(hass.states[entity.entity].attributes[entity.room.attribute]);
+                if (_re.room.attribute) {
+                  if (hass.states[entity.entity].attributes[_re.room.attribute]) {
+                    this._spritetext.push(hass.states[entity.entity].attributes[_re.room.attribute]);
                   } else {
-                    this._spritetext.push(this._statewithtemplate(entity));
+                    this._spritetext.push(this._statewithtemplate(_re));
                   }
                 } else {
-                  if (entity.room.label_text) {
-                    if (entity.room.label_text == 'template') {
-                      this._spritetext.push(this._statewithtemplate(entity));
+                  if (_re.room.label_text) {
+                    if (_re.room.label_text == 'template') {
+                      this._spritetext.push(this._statewithtemplate(_re));
                       this._unit_of_measurement.pop();
                       this._unit_of_measurement.push('');
                     } else {
@@ -956,7 +982,8 @@ export class Floor3dCard extends LitElement {
           }
           this._config.entities.forEach((entity, i) => {
             if (hass.states[entity.entity]) {
-              let state = this._statewithtemplate(entity);
+              const _re = this._resolveRoomEntity(entity);
+              let state = this._statewithtemplate(_re);
               if (entity.type3d == 'cover') {
                 let toupdate = false;
                 if (hass.states[entity.entity].attributes['current_position']) {
@@ -1051,10 +1078,10 @@ export class Floor3dCard extends LitElement {
                   torerender = true;
                 } else if (entity.type3d == 'room') {
                   let toupdate = false;
-                  if (entity.room.attribute) {
-                    if (hass.states[entity.entity].attributes[entity.room.attribute]) {
-                      if (this._spritetext[i] != hass.states[entity.entity].attributes[entity.room.attribute]) {
-                        this._spritetext[i] = hass.states[entity.entity].attributes[entity.room.attribute];
+                  if (_re.room.attribute) {
+                    if (hass.states[entity.entity].attributes[_re.room.attribute]) {
+                      if (this._spritetext[i] != hass.states[entity.entity].attributes[_re.room.attribute]) {
+                        this._spritetext[i] = hass.states[entity.entity].attributes[_re.room.attribute];
                         toupdate = true;
                       }
                     } else {
@@ -1062,10 +1089,10 @@ export class Floor3dCard extends LitElement {
                       toupdate = true;
                     }
                   } else {
-                    if (entity.room.label_text) {
-                      if (entity.room.label_text == 'template') {
-                        if (this._spritetext[i] != this._statewithtemplate(entity)) {
-                          this._spritetext[i] = this._statewithtemplate(entity);
+                    if (_re.room.label_text) {
+                      if (_re.room.label_text == 'template') {
+                        if (this._spritetext[i] != this._statewithtemplate(_re)) {
+                          this._spritetext[i] = this._statewithtemplate(_re);
                           toupdate = true;
                         }
                       } else {
@@ -1078,8 +1105,8 @@ export class Floor3dCard extends LitElement {
                   }
 
                   if (this._canvas[i] && toupdate) {
-                    this._updateroom(entity, this._spritetext[i], this._unit_of_measurement[i], i);
-                    this._updateroomcolor(entity, i);
+                    this._updateroom(_re, this._spritetext[i], this._unit_of_measurement[i], i);
+                    this._updateroomcolor(_re, i);
                     torerender = true;
                   }
                 }
@@ -2402,8 +2429,9 @@ export class Floor3dCard extends LitElement {
             } else if (entity.type3d == 'rotate') {
               this._rotatecalc(entity, i);
             } else if (entity.type3d == 'room') {
-              this._createroom(entity, i);
-              this._updateroom(entity, this._spritetext[i], this._unit_of_measurement[i], i);
+              const _roomEntity = this._resolveRoomEntity(entity);
+              this._createroom(_roomEntity, i);
+              this._updateroom(_roomEntity, this._spritetext[i], this._unit_of_measurement[i], i);
             }
           }
         });

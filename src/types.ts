@@ -101,6 +101,7 @@ export interface Floor3dCardConfig {
   color: string;
   show_warning: boolean;
   show_error: boolean;
+  room_templates: any;
 }
 
 export interface EntityFloor3dCardConfig {
