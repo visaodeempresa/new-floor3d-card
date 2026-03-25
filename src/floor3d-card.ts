@@ -2453,7 +2453,7 @@ export class Floor3dCard extends LitElement {
             } else if (entity.type3d == 'show') {
               this._updateshow(entity, i);
             } else if (entity.type3d == 'door') {
-              this._updatedoor(entity, i);
+              this._updatedoor(this._resolveDoorEntity(entity), i);
             } else if (entity.type3d == 'text') {
               this._canvas[i] = this._createTextCanvas(entity.text, this._text[i], this._unit_of_measurement[i]);
               this._updatetext(entity, this._text[i], this._canvas[i], this._unit_of_measurement[i]);
@@ -2905,7 +2905,7 @@ export class Floor3dCard extends LitElement {
       const targetRotation: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
       const direction = entity.door.swing_direction || entity.door.direction;
 
-      if (this._states[index] == 'on') {
+      if (this._states[index] == 'on' || this._states[index] == 'open') {
         if (direction == 'inner') {
 
           if (this._axis_for_door[index].y == 1) {
