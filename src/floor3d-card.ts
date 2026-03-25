@@ -864,6 +864,21 @@ export class Floor3dCard extends LitElement {
     return resolved;
   }
 
+  private _resolveLightEntity(entity: any): any {
+    if (!entity.light_template || !this._config.light_templates || !this._config.light_templates[entity.light_template]) {
+      return entity;
+    }
+    const template = this._config.light_templates[entity.light_template];
+    const resolved: any = { ...entity };
+
+    // Merge 'light' config: template as base, entity-level keys override
+    if (template.light) {
+      resolved.light = { ...template.light, ...(entity.light || {}) };
+    }
+
+    return resolved;
+  }
+
   public set hass(hass: HomeAssistant) {
     try {
 
@@ -1034,7 +1049,7 @@ export class Floor3dCard extends LitElement {
                   }
                 }
                 if (toupdate) {
-                  this._updatelight(entity, i);
+                  this._updatelight(this._resolveLightEntity(entity), i);
                   torerender = true;
                 }
               } else if (entity.type3d == 'text') {
@@ -2264,7 +2279,7 @@ export class Floor3dCard extends LitElement {
                 }
               }
               if (entity.type3d == 'light') {
-
+                const _le = this._resolveLightEntity(entity);
                 this._object_ids[i].objects.forEach((element) => {
                   const _foundobject: any = this._scene.getObjectByName(element.object_id);
                   if (_foundobject) {
@@ -2279,8 +2294,8 @@ export class Floor3dCard extends LitElement {
                     z = (box.max.z - box.min.z) / 2 + box.min.z;
                     y = (box.max.y - box.min.y) / 2 + box.min.y;
 
-                    if (entity.light.vertical_alignment) {
-                      switch (entity.light.vertical_alignment) {
+                    if (_le.light.vertical_alignment) {
+                      switch (_le.light.vertical_alignment) {
                         case 'top':
                           y = box.max.y;
                           break;
@@ -2296,20 +2311,20 @@ export class Floor3dCard extends LitElement {
                     let decay: number;
                     let distance: number;
 
-                    if (entity.light.decay) {
-                      decay = Number(entity.light.decay);
+                    if (_le.light.decay) {
+                      decay = Number(_le.light.decay);
                     } else {
                       decay = 2;
                     }
 
-                    if (entity.light.distance) {
-                      distance = Number(entity.light.distance);
+                    if (_le.light.distance) {
+                      distance = Number(_le.light.distance);
                     } else {
                       distance = 600;
                     }
 
-                    if (entity.light.light_target || entity.light.light_direction) {
-                      const angle = entity.light.angle ? THREE.MathUtils.degToRad(entity.light.angle) : Math.PI / 10;
+                    if (_le.light.light_target || _le.light.light_direction) {
+                      const angle = _le.light.angle ? THREE.MathUtils.degToRad(_le.light.angle) : Math.PI / 10;
 
                       const slight: THREE.SpotLight = new THREE.SpotLight(
                         new THREE.Color('#ffffff'),
@@ -2325,14 +2340,14 @@ export class Floor3dCard extends LitElement {
 
                       this._levels[_foundobject.userData.level].add(target);
                       slight.position.set(x, y, z);
-                      if (entity.light.light_direction) {
+                      if (_le.light.light_direction) {
                         target.position.set(
-                          x + entity.light.light_direction.x,
-                          y + entity.light.light_direction.y,
-                          z + entity.light.light_direction.z,
+                          x + _le.light.light_direction.x,
+                          y + _le.light.light_direction.y,
+                          z + _le.light.light_direction.z,
                         );
                       } else {
-                        const tobj: THREE.Object3D = this._scene.getObjectByName(entity.light.light_target);
+                        const tobj: THREE.Object3D = this._scene.getObjectByName(_le.light.light_target);
 
                         if (tobj) {
                           const tbox: THREE.Box3 = new THREE.Box3();
@@ -2368,7 +2383,7 @@ export class Floor3dCard extends LitElement {
                     this._setNoShadowLight(_foundobject);
                     _foundobject.traverseAncestors(this._setNoShadowLight.bind(this));
 
-                    if (entity.light.shadow == 'no') {
+                    if (_le.light.shadow == 'no') {
                       light.castShadow = false;
                     } else {
                       light.castShadow = true;
@@ -2414,7 +2429,7 @@ export class Floor3dCard extends LitElement {
         this._config.entities.forEach((entity, i) => {
           if (entity.entity !== '') {
             if (entity.type3d == 'light') {
-              this._updatelight(entity, i);
+              this._updatelight(this._resolveLightEntity(entity), i);
             } else if (entity.type3d == 'color') {
               this._updatecolor(entity, i);
             } else if (entity.type3d == 'hide') {
