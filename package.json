@@ -1,6 +1,6 @@
 {
   "name": "new-floor3d-card",
-  "version": "5.1.0-R3-Fix01",
+  "version": "5.1.0-R3-Fix02",
   "description": "Home Assistant 3D Digital Twin — interactive floor plan card powered by Three.js",
   "keywords": [
     "home-assistant",
