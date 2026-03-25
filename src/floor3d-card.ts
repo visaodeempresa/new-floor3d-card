@@ -879,6 +879,21 @@ export class Floor3dCard extends LitElement {
     return resolved;
   }
 
+  private _resolveDoorEntity(entity: any): any {
+    if (!entity.door_template || !this._config.door_templates || !this._config.door_templates[entity.door_template]) {
+      return entity;
+    }
+    const template = this._config.door_templates[entity.door_template];
+    const resolved: any = { ...entity };
+
+    // Merge 'door' config: template as base, entity-level keys override
+    if (template.door) {
+      resolved.door = { ...template.door, ...(entity.door || {}) };
+    }
+
+    return resolved;
+  }
+
   public set hass(hass: HomeAssistant) {
     try {
 
@@ -1089,7 +1104,7 @@ export class Floor3dCard extends LitElement {
                   this._updateshow(entity, i);
                   torerender = true;
                 } else if (entity.type3d == 'door') {
-                  this._updatedoor(entity, i);
+                  this._updatedoor(this._resolveDoorEntity(entity), i);
                   torerender = true;
                 } else if (entity.type3d == 'room') {
                   let toupdate = false;
@@ -2085,15 +2100,16 @@ export class Floor3dCard extends LitElement {
                 });
               }
               if (entity.type3d == 'door') {
-                if (entity.door.doortype != 'swing' && entity.door.doortype != 'slide') {
-                  throw new Error('Invalid door type: ' + entity.door.doortype + '. Valid types are: swing, slide');
+                const _re_door = this._resolveDoorEntity(entity);
+                if (_re_door.door.doortype != 'swing' && _re_door.door.doortype != 'slide') {
+                  throw new Error('Invalid door type: ' + _re_door.door.doortype + '. Valid types are: swing, slide');
                 }
 
-                if (entity.door.doortype == 'swing') {
+                if (_re_door.door.doortype == 'swing') {
 
                   let position = new THREE.Vector3();
-                  if (entity.door.hinge) {
-                    let hinge: THREE.Mesh = this._scene.getObjectByName(entity.door.hinge) as THREE.Mesh;
+                  if (_re_door.door.hinge) {
+                    let hinge: THREE.Mesh = this._scene.getObjectByName(_re_door.door.hinge) as THREE.Mesh;
                     hinge.geometry.computeBoundingBox();
                     let boundingBox = hinge.geometry.boundingBox;
                     position.subVectors(boundingBox.max, boundingBox.min);
@@ -2114,8 +2130,8 @@ export class Floor3dCard extends LitElement {
                   } else {
                     let pane: THREE.Mesh;
 
-                    if (entity.door.pane) {
-                      pane = this._scene.getObjectByName(entity.door.pane) as THREE.Mesh;
+                    if (_re_door.door.pane) {
+                      pane = this._scene.getObjectByName(_re_door.door.pane) as THREE.Mesh;
                     } else {
                       pane = this._scene.getObjectByName(this._object_ids[i].objects[0].object_id) as THREE.Mesh;
                     }
@@ -2123,7 +2139,7 @@ export class Floor3dCard extends LitElement {
                     pane.geometry.computeBoundingBox();
                     let boundingBox = pane.geometry.boundingBox;
                     position.subVectors(boundingBox.max, boundingBox.min);
-                    const side = entity.door.swing_side || entity.door.side;
+                    const side = _re_door.door.swing_side || _re_door.door.side;
 
                     if (side) {
                       switch (side) {
@@ -2176,10 +2192,10 @@ export class Floor3dCard extends LitElement {
                   }
 
                   this._pivot[i] = position;
-                  if (typeof entity.door.swing_degrees !== 'undefined') {
-                    this._degrees[i] = entity.door.swing_degrees;
-                  } else if (typeof entity.door.degrees !== 'undefined') {
-                    this._degrees[i] = entity.door.degrees;
+                  if (typeof _re_door.door.swing_degrees !== 'undefined') {
+                    this._degrees[i] = _re_door.door.swing_degrees;
+                  } else if (typeof _re_door.door.degrees !== 'undefined') {
+                    this._degrees[i] = _re_door.door.degrees;
                   } else {
                     this._degrees[i] = 90;
                   }
@@ -2195,7 +2211,7 @@ export class Floor3dCard extends LitElement {
                   });
 
                 }
-                if (entity.door.doortype == 'slide') {
+                if (_re_door.door.doortype == 'slide') {
 
                   this._object_ids[i].objects.forEach((element) => {
                     let _obj: any = this._scene.getObjectByName(element.object_id);
