@@ -2193,9 +2193,11 @@ export class Floor3dCard extends LitElement {
 
                   this._pivot[i] = position;
                   if (typeof _re_door.door.swing_degrees !== 'undefined') {
-                    this._degrees[i] = _re_door.door.swing_degrees;
+                    this._degrees[i] = Number(_re_door.door.swing_degrees);
                   } else if (typeof _re_door.door.degrees !== 'undefined') {
-                    this._degrees[i] = _re_door.door.degrees;
+                    this._degrees[i] = Number(_re_door.door.degrees);
+                  } else if (typeof _re_door.door.percentage !== 'undefined') {
+                    this._degrees[i] = Number(_re_door.door.percentage);
                   } else {
                     this._degrees[i] = 90;
                   }
